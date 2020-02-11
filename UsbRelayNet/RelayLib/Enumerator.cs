@@ -2,10 +2,20 @@
 using System.Linq;
 
 namespace UsbRelayNet.RelayLib {
+    /// <summary>
+    /// The class searches and collects information about connected devices (USB Relay Modules).
+    /// </summary>
     public class Enumerator {
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Enumerator() {
         }
 
+        /// <summary>
+        /// Search and collect information.
+        /// </summary>
+        /// <returns>Enumerator of devices found.</returns>
         public IEnumerable<Relay> CollectDevices() {
             var usbHid = new HidLib.Enumerator();
             var result = usbHid.CollectDevices()
