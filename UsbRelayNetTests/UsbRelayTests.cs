@@ -29,8 +29,9 @@ namespace UsbRelayNetTests {
         public void CanOpenClose() {
             var en = new Enumerator();
 
-            var devices = en.CollectDevices();
-            var device = devices.First();
+            var devicesInfo = en.CollectDevices();
+            var deviceInfo = devicesInfo.First();
+            var device = new Relay(deviceInfo);
 
             Assert.That(device.IsOpened, Is.False);
 
@@ -46,8 +47,9 @@ namespace UsbRelayNetTests {
         public void CanReadStatusRaw() {
             var en = new Enumerator();
 
-            var devices = en.CollectDevices();
-            var device = devices.First();
+            var devicesInfo = en.CollectDevices();
+            var deviceInfo = devicesInfo.First();
+            var device = new Relay(deviceInfo);
 
             if (device.Open()) {
                 device.ReadStatusRaw(out var rawData, out var states);
@@ -60,8 +62,9 @@ namespace UsbRelayNetTests {
         public void CanReadId() {
             var en = new Enumerator();
 
-            var devices = en.CollectDevices();
-            var device = devices.First();
+            var devicesInfo = en.CollectDevices();
+            var deviceInfo = devicesInfo.First();
+            var device = new Relay(deviceInfo);
 
             if (device.Open()) {
                 var id = device.ReadId();
@@ -76,8 +79,9 @@ namespace UsbRelayNetTests {
         public void CanWriteId() {
             var en = new Enumerator();
 
-            var devices = en.CollectDevices();
-            var device = devices.First();
+            var devicesInfo = en.CollectDevices();
+            var deviceInfo = devicesInfo.First();
+            var device = new Relay(deviceInfo);
 
             if (device.Open()) {
                 var id = device.ReadId();
@@ -98,8 +102,9 @@ namespace UsbRelayNetTests {
         public void CanReadWriteOneChannel([Range(1, 8)]int channel) {
             var en = new Enumerator();
 
-            var devices = en.CollectDevices();
-            var device = devices.First();
+            var devicesInfo = en.CollectDevices();
+            var deviceInfo = devicesInfo.First();
+            var device = new Relay(deviceInfo);
 
             if (device.ChannelsCount < channel) {
                 return;
@@ -126,8 +131,9 @@ namespace UsbRelayNetTests {
         public void CanWriteAllChannels() {
             var en = new Enumerator();
 
-            var devices = en.CollectDevices();
-            var device = devices.First();
+            var devicesInfo = en.CollectDevices();
+            var deviceInfo = devicesInfo.First();
+            var device = new Relay(deviceInfo);
 
             var mask = 0;
 

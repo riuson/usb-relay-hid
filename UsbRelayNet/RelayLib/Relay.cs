@@ -13,6 +13,11 @@ namespace UsbRelayNet.RelayLib {
             this._device = new HidDevice();
         }
 
+        public Relay(RelayInfo deviceInfo) {
+            this._deviceInfo = deviceInfo.HidInfo;
+            this._device = new HidDevice();
+        }
+
         public void Dispose() {
             this._device.Dispose();
         }

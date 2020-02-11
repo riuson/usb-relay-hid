@@ -142,7 +142,7 @@ namespace DemoUI {
                 if (this.comboBoxPath.Items.Count > 0) {
                     this._selectedRelay = this.comboBoxPath.Items
                         .OfType<RelayItem>()
-                        .Select(x => x.Relay)
+                        .Select(x => new Relay(x.RelayInfo))
                         .FirstOrDefault();
                 }
             }

@@ -2,15 +2,15 @@
 
 namespace DemoUI {
     public class RelayItem {
-        private readonly Relay _relay;
+        private readonly RelayInfo _relayInfo;
 
-        public RelayItem(Relay relay) {
-            this._relay = relay;
+        public RelayItem(RelayInfo relayInfo) {
+            this._relayInfo = relayInfo;
         }
 
-        public Relay Relay => this._relay;
+        public RelayInfo RelayInfo => this._relayInfo;
 
 
-        public override string ToString() => this._relay.Info.Path;
+        public override string ToString() => this._relayInfo.HidInfo.Path;
     }
 }
