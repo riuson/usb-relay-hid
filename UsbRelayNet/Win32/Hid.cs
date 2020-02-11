@@ -1,21 +1,29 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace UsbRelayNet.Win32
-{
-    public static class Hid
-    {
+namespace UsbRelayNet.Win32 {
+    public static class Hid {
         #region Structures
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct HidD_Attributes
-        {
+        public struct HidD_Attributes {
             public Int32 Size;
             public UInt16 VendorID;
             public UInt16 ProductID;
             public UInt16 VersionNumber;
         }
 
+        public class Attributes {
+            public Attributes(HidD_Attributes attributes) {
+                this.VendorID = attributes.VendorID;
+                this.ProductId = attributes.ProductID;
+                this.Version = string.Format("{0}.{1}", (attributes.VersionNumber >> 8) & 0xff, attributes.VersionNumber & 0xff);
+            }
+
+            public int VendorID { get; }
+            public int ProductId { get; }
+            public string Version { get; }
+        }
 
         #endregion
 

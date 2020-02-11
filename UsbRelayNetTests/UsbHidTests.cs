@@ -1,15 +1,16 @@
 ﻿using NUnit.Framework;
-using UsbRelayNet;
+using System.Linq;
+using UsbRelayNet.HidLib;
 
-namespace UsbRelayNetTests
-{
-    public class UsbHidTests
-    {
+namespace UsbRelayNetTests {
+    public class UsbHidTests {
         [Test]
-        public void EnumDevices()
-        {
-            var sut = new UsbHid();
-            sut.EnumDevices(0x16C0, 0x05DF);
+        public void CanCollectDevices() {
+            var sut = new Enumerator();
+
+            var devices = sut.CollectDevices();
+
+            Assert.That(devices.Count(), Is.GreaterThan(0));
         }
     }
 }

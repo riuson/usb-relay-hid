@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace UsbRelayNet.Win32
-{
-    public static class SetupApi
-    {
+namespace UsbRelayNet.Win32 {
+    public static class SetupApi {
         #region Structures
         //https://www.pinvoke.net/default.aspx/Structures/SP_DEVICE_INTERFACE_DATA.html
         [StructLayout(LayoutKind.Sequential)]
-        public struct SP_DEVICE_INTERFACE_DATA
-        {
+        public struct SP_DEVICE_INTERFACE_DATA {
             public Int32 cbSize;
             public Guid interfaceClassGuid;
             public Int32 flags;
@@ -18,8 +15,7 @@ namespace UsbRelayNet.Win32
 
         //https://www.pinvoke.net/default.aspx/Structures/SP_DEVICE_INTERFACE_DETAIL_DATA.html
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        public struct SP_DEVICE_INTERFACE_DETAIL_DATA
-        {
+        public struct SP_DEVICE_INTERFACE_DETAIL_DATA {
             public int cbSize;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
             public string DevicePath;
@@ -27,8 +23,7 @@ namespace UsbRelayNet.Win32
 
         //https://www.pinvoke.net/default.aspx/Structures/SP_DEVINFO_DATA.html
         [StructLayout(LayoutKind.Sequential)]
-        public struct SP_DEVINFO_DATA
-        {
+        public struct SP_DEVINFO_DATA {
             public UInt32 cbSize;
             public Guid ClassGuid;
             public UInt32 DevInst;
@@ -66,8 +61,13 @@ namespace UsbRelayNet.Win32
         public static extern bool SetupDiEnumDeviceInterfaces(IntPtr lpDeviceInfoSet, uint nDeviceInfoData, ref Guid gClass, uint nIndex, ref SP_DEVICE_INTERFACE_DATA oInterfaceData);
 
 
-        [DllImport("setupapi.dll")]
-        public static extern Int32 SetupDiDestroyDeviceInfoList(IntPtr DeviceInfoSet);
+        /// <summary>
+        /// Frees InfoSet allocated in call to above.
+        /// </summary>
+        /// <param name="lpInfoSet">Reference to InfoSet</param>
+        /// <returns>true if successful</returns>
+        [DllImport("setupapi.dll", SetLastError = true)]
+        public static extern int SetupDiDestroyDeviceInfoList(IntPtr lpInfoSet);
 
         #endregion
     }

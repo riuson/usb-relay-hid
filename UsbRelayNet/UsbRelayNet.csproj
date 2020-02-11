@@ -41,9 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HidException.cs" />
-    <Compile Include="UsbHid.cs" />
+    <Compile Include="HidLib\HidDevice.cs" />
+    <Compile Include="HidLib\HidDeviceInfo.cs" />
+    <Compile Include="HidLib\HidException.cs" />
+    <Compile Include="HidLib\Enumerator.cs" />
+    <Compile Include="HidLib\ArrayExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelayLib\Channel.cs" />
+    <Compile Include="RelayLib\Channels.cs" />
+    <Compile Include="RelayLib\Enumerator.cs" />
+    <Compile Include="RelayLib\Relay.cs" />
     <Compile Include="Win32\Constants.cs" />
     <Compile Include="Win32\Hid.cs" />
     <Compile Include="Win32\Kernel32.cs" />
