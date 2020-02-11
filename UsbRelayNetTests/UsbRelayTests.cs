@@ -11,7 +11,7 @@ namespace UsbRelayNetTests {
 
             var devices = en.CollectDevices();
 
-            Assert.That(devices.Count(), Is.GreaterThan(0));
+            Assert.That(devices.Count(), Is.GreaterThan(0), "At least one device should be connected, but found {0}!", devices.Count());
         }
 
         [Test]
@@ -73,15 +73,15 @@ namespace UsbRelayNetTests {
         }
 
         [Test]
-        public void CanReadWriteChannel([Values]Channels channel) {
-            if (channel == Channels.None) {
-                return;
-            }
-
+        public void CanReadWriteOneChannel([Range(1, 8)]int channel) {
             var en = new Enumerator();
 
             var devices = en.CollectDevices();
             var device = devices.First();
+
+            if (device.ChannelsCount < channel) {
+                return;
+            }
 
             if (device.Open()) {
                 device.WriteChannel(channel, false);
@@ -101,16 +101,30 @@ namespace UsbRelayNetTests {
         }
 
         [Test]
-        public void CantWriteMultipleChannels([Values(Channels.Channel1 | Channels.Channel2)]Channels channel) {
+        public void CanWriteAllChannels() {
             var en = new Enumerator();
 
             var devices = en.CollectDevices();
             var device = devices.First();
 
+            int mask = 0;
+
+            for (int i = device.ChannelsCount - 1; i >= 0; i--) {
+                mask |= 1 << i;
+            }
+
             if (device.Open()) {
-                Assert.That(
-                    () => device.WriteChannel(channel, false),
-                    Throws.Exception.TypeOf<ArgumentException>());
+                device.WriteChannels(false);
+                var status = device.ReadStatus();
+                Assert.That(status & mask, Is.EqualTo(0));
+
+                device.WriteChannels(true);
+                status = device.ReadStatus();
+                Assert.That(status & mask, Is.EqualTo(mask));
+
+                device.WriteChannels(false);
+                status = device.ReadStatus();
+                Assert.That(status & mask, Is.EqualTo(0));
 
                 device.Close();
             }
