@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\UsbRelayNet.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\UsbRelayNet.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,7 +45,6 @@
   <ItemGroup>
     <Compile Include="HidLib\HidDevice.cs" />
     <Compile Include="HidLib\HidDeviceInfo.cs" />
-    <Compile Include="HidLib\HidException.cs" />
     <Compile Include="HidLib\Enumerator.cs" />
     <Compile Include="HidLib\ArrayExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

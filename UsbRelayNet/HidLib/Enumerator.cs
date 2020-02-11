@@ -39,8 +39,8 @@ namespace UsbRelayNet.HidLib {
                         result.Add(new HidDeviceInfo(
                             path,
                             attributes.VendorID,
-                            attributes.ProductId,
-                            attributes.Version,
+                            attributes.ProductID,
+                            attributes.VersionString,
                             vendor,
                             product));
 
@@ -60,7 +60,7 @@ namespace UsbRelayNet.HidLib {
             if (!SetupApi.SetupDiGetDeviceInterfaceDetail(deviceInfoList, ref deviceInfo,
                 IntPtr.Zero, 0,
                 out var needed, IntPtr.Zero)) {
-                int error = Marshal.GetLastWin32Error();
+                var error = Marshal.GetLastWin32Error();
 
                 if (error != 122) {
                     return string.Empty;
@@ -73,14 +73,14 @@ namespace UsbRelayNet.HidLib {
 
             try {
                 deviceInterfaceDetailData = Marshal.AllocHGlobal((int)(8 + needed));
-                int size = IntPtr.Size == 8 ? 8 : 6;
+                var size = IntPtr.Size == 8 ? 8 : 6;
                 Marshal.WriteInt32(deviceInterfaceDetailData, size);
                 if (!SetupApi.SetupDiGetDeviceInterfaceDetail(deviceInfoList, ref deviceInfo,
                     deviceInterfaceDetailData, needed, out needed, IntPtr.Zero)) {
-                    int error = Marshal.GetLastWin32Error();
+                    var error = Marshal.GetLastWin32Error();
                 }
 
-                var pStr = IntPtr.Add(deviceInterfaceDetailData, sizeof(UInt32));
+                var pStr = IntPtr.Add(deviceInterfaceDetailData, sizeof(uint));
                 var path = Marshal.PtrToStringUni(pStr);
 
                 return path;

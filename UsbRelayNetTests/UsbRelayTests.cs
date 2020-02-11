@@ -34,7 +34,7 @@ namespace UsbRelayNetTests {
 
             Assert.That(device.IsOpened, Is.False);
 
-            bool opened = device.Open();
+            var opened = device.Open();
             Assert.That(opened, Is.True);
             Assert.That(device.IsOpened, Is.True);
 
@@ -107,9 +107,9 @@ namespace UsbRelayNetTests {
             var devices = en.CollectDevices();
             var device = devices.First();
 
-            int mask = 0;
+            var mask = 0;
 
-            for (int i = device.ChannelsCount - 1; i >= 0; i--) {
+            for (var i = device.ChannelsCount - 1; i >= 0; i--) {
                 mask |= 1 << i;
             }
 

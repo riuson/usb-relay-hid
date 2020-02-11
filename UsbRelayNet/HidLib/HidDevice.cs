@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using UsbRelayNet.Win32;
 
@@ -40,11 +39,10 @@ namespace UsbRelayNet.HidLib {
 
         public bool IsOpened => this._handle != Constants.INVALID_HANDLE_VALUE;
 
-        public Hid.Attributes GetAttributes() {
+        public Hid.HidD_Attributes GetAttributes() {
             var attributes = new Hid.HidD_Attributes();
             attributes.Size = Marshal.SizeOf(attributes);
             Hid.HidD_GetAttributes(this._handle, ref attributes);
-            return new Hid.Attributes(attributes);
         }
 
         public string GetVendorString() {
@@ -67,7 +65,7 @@ namespace UsbRelayNet.HidLib {
 
         public bool SetFeature(int reportNumber, byte[] data) {
             if (data.Length > 64) {
-                throw new HidException("Array too large!");
+                throw new ArgumentException("Array too large!", nameof(data));
             }
 
             data[0] = Convert.ToByte(reportNumber);

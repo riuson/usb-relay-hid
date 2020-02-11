@@ -30,7 +30,7 @@ namespace UsbRelayNet.RelayLib {
                 var lastChar = this._deviceInfo.Product.Last();
 
                 if (char.IsDigit(lastChar) && lastChar >= '1' && lastChar <= '8') {
-                    int count = Convert.ToInt32(lastChar) - Convert.ToInt32('0');
+                    var count = Convert.ToInt32(lastChar) - Convert.ToInt32('0');
                     return count;
                 }
 
@@ -44,15 +44,15 @@ namespace UsbRelayNet.RelayLib {
         /// <param name="data">State of all relays</param>
         /// <returns>bit mask of all relays (R1->bit 0, R2->bit 1 ...) or -1 on error</returns>
         public void ReadStatusRaw(out byte[] rawData, out int status) {
-            int reportNumber = 0;
-            int length = 8 + 1; /* report id 1 byte + 8 bytes data */
+            var reportNumber = 0;
+            var length = 8 + 1; /* report id 1 byte + 8 bytes data */
 
             if (!this._device.GetFeature(reportNumber, out var buffer)) {
-                throw new HidException("Error reading status");
+                throw new Exception("Error reading status");
             }
 
             if (buffer[0] != reportNumber) {
-                throw new HidException("Wrong HID report returned!");
+                throw new Exception("Wrong HID report returned!");
             }
 
             rawData = new byte[9];
@@ -71,7 +71,7 @@ namespace UsbRelayNet.RelayLib {
 
             if (Enumerable.Range(1, 5).Select(i => rawData[i]).All(x => (x >= 0x20) && (x <= 0x7f))) {
                 if (rawData[6] == 0) {
-                    string id = Encoding.ASCII.GetString(rawData, 1, 5);
+                    var id = Encoding.ASCII.GetString(rawData, 1, 5);
                     return id;
                 }
             }
@@ -118,9 +118,9 @@ namespace UsbRelayNet.RelayLib {
             if (this._device.SetFeature(0, buffer)) {
                 var status = this.ReadStatus();
 
-                int mask = 0;
+                var mask = 0;
 
-                for (int i = this.ChannelsCount - 1; i >= 0; i--) {
+                for (var i = this.ChannelsCount - 1; i >= 0; i--) {
                     mask |= 1 << i;
                 }
 
