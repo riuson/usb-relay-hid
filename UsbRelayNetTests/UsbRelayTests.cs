@@ -73,6 +73,28 @@ namespace UsbRelayNetTests {
         }
 
         [Test]
+        public void CanWriteId() {
+            var en = new Enumerator();
+
+            var devices = en.CollectDevices();
+            var device = devices.First();
+
+            if (device.Open()) {
+                var id = device.ReadId();
+
+                var newId = DateTime.Now.ToString("Hmmss");
+                device.WriteId(newId);
+
+                var newIdCheck = device.ReadId();
+
+                Assert.That(id, Is.Not.EqualTo(newIdCheck));
+                Assert.That(newIdCheck, Is.EqualTo(newId));
+
+                device.Close();
+            }
+        }
+
+        [Test]
         public void CanReadWriteOneChannel([Range(1, 8)]int channel) {
             var en = new Enumerator();
 

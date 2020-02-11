@@ -79,6 +79,22 @@ namespace UsbRelayNet.RelayLib {
             return string.Empty;
         }
 
+        public void WriteId(string id) {
+            if (string.IsNullOrEmpty(id)) {
+                id = DateTime.Now.ToString("Hmmss");
+            } else if (id.Length < 5) {
+                id = id.PadRight(5, ' ');
+            }
+
+            var idBytes = Encoding.ASCII.GetBytes(id);
+
+            var buffer = new byte[9];
+            buffer[1] = 0xfa;
+            Array.Copy(idBytes, 0, buffer, 2, 5);
+
+            this._device.SetFeature(0, buffer);
+        }
+
         public bool ReadChannel(int channel) {
             if (channel < 1 || channel > 8) {
                 throw new ArgumentOutOfRangeException(nameof(channel), channel, "Channel index should be in the range 1…8!");
