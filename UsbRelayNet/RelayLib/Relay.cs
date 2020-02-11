@@ -17,6 +17,8 @@ namespace UsbRelayNet.RelayLib {
             this._device.Dispose();
         }
 
+        public HidDeviceInfo Info => this._deviceInfo;
+
         public bool Open() => this._device.Open(this._deviceInfo.Path);
 
         public void Close() => this._device.Close();
