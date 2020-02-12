@@ -48,6 +48,7 @@
     <Compile Include="HidLib\Enumerator.cs" />
     <Compile Include="HidLib\ArrayExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfoVersion.cs" />
     <Compile Include="RelayLib\Enumerator.cs" />
     <Compile Include="RelayLib\Relay.cs" />
     <Compile Include="RelayLib\RelayInfo.cs" />
@@ -56,6 +57,11 @@
     <Compile Include="Win32\Kernel32.cs" />
     <Compile Include="Win32\SetupApi.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="pre-build.bat" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(ProjectDir)pre-build.bat $(SolutionDir) $(ProjectDir)</PreBuildEvent>
+  </PropertyGroup>
 </Project>

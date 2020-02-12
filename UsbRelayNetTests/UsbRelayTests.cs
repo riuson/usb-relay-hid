@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using System.Linq;
+using System.Reflection;
 using UsbRelayNet.RelayLib;
 
 namespace UsbRelayNetTests {
@@ -156,6 +157,27 @@ namespace UsbRelayNetTests {
 
                 device.Close();
             }
+        }
+
+        [Test]
+        public void HasVersionInfo() {
+            var assembly = typeof(Enumerator).Assembly;
+
+            var versionAttribute1 = assembly
+                .GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false)
+                .Cast<AssemblyFileVersionAttribute>()
+                .FirstOrDefault();
+
+            var versionAttribute2 = assembly
+                .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
+                .Cast<AssemblyInformationalVersionAttribute>()
+                .FirstOrDefault();
+
+            var versionAttribute3 = assembly.GetName().Version.ToString();
+
+            Assert.That(string.IsNullOrWhiteSpace(versionAttribute1.Version), Is.False);
+            Assert.That(string.IsNullOrWhiteSpace(versionAttribute2.InformationalVersion), Is.False);
+            Assert.That(string.IsNullOrWhiteSpace(versionAttribute3), Is.False);
         }
     }
 }
