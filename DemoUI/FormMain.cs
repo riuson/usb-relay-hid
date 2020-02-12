@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -74,28 +75,31 @@ namespace DemoUI {
             this._buttonsOpen.ForEach(button => button.Enabled = relaysFound);
             this._buttonsClose.ForEach(button => button.Enabled = relaysFound);
             this.buttonConnect.Enabled = relaysFound;
-            this.labelConnectionStatus.Enabled = relaysFound;
+            this.buttonDisconnect.Enabled = false;
             this.buttonOpenAll.Enabled = relaysFound;
             this.buttonCloseAll.Enabled = relaysFound;
-            this.labelConnectionStatus.Text = string.Empty;
+            this.textBoxId.Enabled = false;
+            this.textBoxId.Text = string.Empty;
+            this.buttonSetId.Enabled = false;
 
             if (relaysFound) {
                 this.buttonFindDevice.Enabled = !connected;
                 this.comboBoxPath.Enabled = !connected;
 
                 if (connected) {
-                    this.buttonConnect.Text = "Close Device";
-                    this.labelConnectionStatus.Text = this._selectedRelay.ReadId();
-                    this.labelConnectionStatus.BackColor = Color.Green;
+                    this.buttonConnect.Enabled = false;
+                    this.buttonDisconnect.Enabled = true;
+                    this.textBoxId.Enabled = true;
+                    this.textBoxId.Text = this._selectedRelay.ReadId();
+                    this.buttonSetId.Enabled = true;
 
                 } else {
-                    this.buttonConnect.Text = "Open Device";
-                    this.labelConnectionStatus.Text = string.Empty;
-                    this.labelConnectionStatus.BackColor = Color.Red;
+                    this.buttonConnect.Enabled = true;
+                    this.buttonDisconnect.Enabled = false;
                 }
 
                 this._labelsName.ForEach((i, label) => label.Enabled = connected && i < this._selectedRelay.ChannelsCount);
-                this._labelsStatus.ForEach((i, label) => label.Enabled = connected && i < this._selectedRelay.ChannelsCount);
+                this._labelsStatus.ForEach((i, label) => label.BackColor = (connected && i < this._selectedRelay.ChannelsCount) ? label.BackColor : Color.Transparent);
                 this._buttonsOpen.ForEach((i, button) => button.Enabled = connected && i < this._selectedRelay.ChannelsCount);
                 this._buttonsClose.ForEach((i, button) => button.Enabled = connected && i < this._selectedRelay.ChannelsCount);
                 this.buttonOpenAll.Enabled = connected;
@@ -147,10 +151,17 @@ namespace DemoUI {
                 }
             }
 
+            if (!this._selectedRelay.IsOpened) {
+                this._selectedRelay.Open();
+            }
+
+            this.UpdateControls();
+            this.UpdateChannelsStatus();
+        }
+
+        private void buttonDisconnect_Click(object sender, EventArgs e) {
             if (this._selectedRelay.IsOpened) {
                 this._selectedRelay.Close();
-            } else {
-                this._selectedRelay.Open();
             }
 
             this.UpdateControls();
@@ -187,6 +198,14 @@ namespace DemoUI {
         private void buttonCloseAll_Click(object sender, EventArgs e) {
             this._selectedRelay.WriteChannels(false);
             this.UpdateChannelsStatus();
+        }
+
+        private void buttonSetId_Click(object sender, EventArgs e) {
+            if (this._selectedRelay?.IsOpened ?? false) {
+                this._selectedRelay.WriteId(this.textBoxId.Text);
+            }
+
+            this.UpdateControls();
         }
     }
 }
