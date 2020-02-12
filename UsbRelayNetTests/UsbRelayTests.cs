@@ -44,7 +44,7 @@ namespace UsbRelayNetTests {
         }
 
         [Test]
-        public void CanReadStatusRaw() {
+        public void CanReadStatus() {
             var en = new Enumerator();
 
             var devicesInfo = en.CollectDevices();
@@ -52,7 +52,7 @@ namespace UsbRelayNetTests {
             var device = new Relay(deviceInfo);
 
             if (device.Open()) {
-                device.ReadStatusRaw(out var rawData, out var states);
+                device.ReadStatus();
 
                 device.Close();
             }

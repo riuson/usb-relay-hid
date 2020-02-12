@@ -4,35 +4,56 @@ using System.Text;
 using UsbRelayNet.HidLib;
 
 namespace UsbRelayNet.RelayLib {
-    public class Relay : IDisposable {
-        private readonly HidDeviceInfo _deviceInfo;
+    /// <summary>
+    /// Public interface to control USB relay module.
+    /// </summary>
+    public sealed class Relay : IDisposable {
         private readonly HidDevice _device;
 
-        public Relay(HidDeviceInfo deviceInfo) {
-            this._deviceInfo = deviceInfo;
+        internal Relay(HidDeviceInfo deviceInfo) {
+            this.Info = deviceInfo;
             this._device = new HidDevice();
         }
 
+        /// <summary>
+        /// Constructor from RelayInfo.
+        /// </summary>
+        /// <param name="deviceInfo">Relay module info.</param>
         public Relay(RelayInfo deviceInfo) {
-            this._deviceInfo = deviceInfo.HidInfo;
+            this.Info = deviceInfo.HidInfo;
             this._device = new HidDevice();
         }
 
-        public void Dispose() {
-            this._device.Dispose();
-        }
+        /// <inheritdoc />
+        public void Dispose() => this._device.Dispose();
 
-        public HidDeviceInfo Info => this._deviceInfo;
+        /// <summary>
+        /// Underlying HID info
+        /// </summary>
+        public HidDeviceInfo Info { get; }
 
-        public bool Open() => this._device.Open(this._deviceInfo.Path);
+        /// <summary>
+        /// Establishes a connection to the relay module.
+        /// </summary>
+        /// <returns>True, if the operation is successful.</returns>
+        public bool Open() => this._device.Open(this.Info.Path);
 
+        /// <summary>
+        /// Terminates the connection with the relay module.
+        /// </summary>
         public void Close() => this._device.Close();
 
+        /// <summary>
+        /// True, if connection established.
+        /// </summary>
         public bool IsOpened => this._device.IsOpened;
 
+        /// <summary>
+        /// Number of channels available on relay module.
+        /// </summary>
         public int ChannelsCount {
             get {
-                var lastChar = this._deviceInfo.Product.Last();
+                var lastChar = this.Info.Product.Last();
 
                 if (char.IsDigit(lastChar) && lastChar >= '1' && lastChar <= '8') {
                     var count = Convert.ToInt32(lastChar) - Convert.ToInt32('0');
@@ -43,12 +64,7 @@ namespace UsbRelayNet.RelayLib {
             }
         }
 
-        /// <summary>
-        /// // Read state of all relays
-        /// </summary>
-        /// <param name="data">State of all relays</param>
-        /// <returns>bit mask of all relays (R1->bit 0, R2->bit 1 ...) or -1 on error</returns>
-        public void ReadStatusRaw(out byte[] rawData, out int status) {
+        private void ReadStatusRaw(out byte[] rawData, out int status) {
             var reportNumber = 0;
             var length = 8 + 1; /* report id 1 byte + 8 bytes data */
 
@@ -66,11 +82,19 @@ namespace UsbRelayNet.RelayLib {
             status = buffer[8];
         }
 
+        /// <summary>
+        /// Read state of all channels.
+        /// </summary>
+        /// <returns>State of channels.</returns>
         public int ReadStatus() {
-            this.ReadStatusRaw(out var rawData, out var status);
+            this.ReadStatusRaw(out _, out var status);
             return status;
         }
 
+        /// <summary>
+        /// Reads Id of the relay module.
+        /// </summary>
+        /// <returns>Id of the relay module.</returns>
         public string ReadId() {
             this.ReadStatusRaw(out var rawData, out _);
 
@@ -84,6 +108,10 @@ namespace UsbRelayNet.RelayLib {
             return string.Empty;
         }
 
+        /// <summary>
+        /// Writes new Id to the relay module.
+        /// </summary>
+        /// <param name="id">New Id value.</param>
         public void WriteId(string id) {
             if (string.IsNullOrEmpty(id)) {
                 id = DateTime.Now.ToString("Hmmss");
@@ -100,6 +128,11 @@ namespace UsbRelayNet.RelayLib {
             this._device.SetFeature(0, buffer);
         }
 
+        /// <summary>
+        /// Reads state of specified channel.
+        /// </summary>
+        /// <param name="channel">Channel number, 1…8.</param>
+        /// <returns>State of channel.</returns>
         public bool ReadChannel(int channel) {
             if (channel < 1 || channel > 8) {
                 throw new ArgumentOutOfRangeException(nameof(channel), channel, "Channel index should be in the range 1…8!");
@@ -109,6 +142,12 @@ namespace UsbRelayNet.RelayLib {
             return (status & (1 << (channel - 1))) != 0;
         }
 
+        /// <summary>
+        /// Writes state of specified channel.
+        /// </summary>
+        /// <param name="channel">Channel number, 1…8.</param>
+        /// <param name="state">New state of channel.</param>
+        /// <returns>True, if state was successfully changed.</returns>
         public bool WriteChannel(int channel, bool state) {
             if (channel < 1 || channel > 8) {
                 throw new ArgumentOutOfRangeException(nameof(channel), channel, "Channel index should be in the range 1…8!");
@@ -130,6 +169,11 @@ namespace UsbRelayNet.RelayLib {
             return false;
         }
 
+        /// <summary>
+        /// Writes state of all channels at once.
+        /// </summary>
+        /// <param name="state">New state of all channels.</param>
+        /// <returns>True, if state was successfully changed.</returns>
         public bool WriteChannels(bool state) {
             var buffer = new byte[9];
             buffer[0] = 0;

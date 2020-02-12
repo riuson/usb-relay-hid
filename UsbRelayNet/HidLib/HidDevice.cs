@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using UsbRelayNet.Win32;
 
 namespace UsbRelayNet.HidLib {
-    public class HidDevice : IDisposable {
+    internal sealed class HidDevice : IDisposable {
         private IntPtr _handle;
 
         public HidDevice() {
@@ -43,6 +43,7 @@ namespace UsbRelayNet.HidLib {
             var attributes = new Hid.HidD_Attributes();
             attributes.Size = Marshal.SizeOf(attributes);
             Hid.HidD_GetAttributes(this._handle, ref attributes);
+            return attributes;
         }
 
         public string GetVendorString() {

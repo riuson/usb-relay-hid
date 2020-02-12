@@ -4,20 +4,10 @@ using System.Runtime.InteropServices;
 using UsbRelayNet.Win32;
 
 namespace UsbRelayNet.HidLib {
-    /// <summary>
-    /// The class searches and collects information about connected devices (USB HID).
-    /// </summary>
-    public class Enumerator {
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
+    internal class Enumerator {
         public Enumerator() {
         }
 
-        /// <summary>
-        /// Search and collect information.
-        /// </summary>
-        /// <returns>Enumerator of the information found.</returns>
         public IEnumerable<HidDeviceInfo> CollectDevices() {
             var result = new List<HidDeviceInfo>();
 

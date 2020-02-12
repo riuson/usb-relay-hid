@@ -4,7 +4,7 @@ using UsbRelayNet.HidLib;
 
 namespace UsbRelayNet.RelayLib {
     /// <summary>
-    /// The class searches and collects information about connected devices (USB Relay Modules).
+    /// The class searches and collects information about connected USB relay modules.
     /// </summary>
     public class Enumerator {
         /// <summary>
@@ -16,7 +16,7 @@ namespace UsbRelayNet.RelayLib {
         /// <summary>
         /// Search and collect information.
         /// </summary>
-        /// <returns>Enumerator of devices found.</returns>
+        /// <returns>A collection of information about devices found..</returns>
         public IEnumerable<RelayInfo> CollectDevices() {
             var usbHid = new HidLib.Enumerator();
             var result = usbHid.CollectDevices()
