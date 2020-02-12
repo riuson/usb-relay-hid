@@ -86,7 +86,7 @@ namespace UsbRelayNetTests {
             if (device.Open()) {
                 var id = device.ReadId();
 
-                var newId = DateTime.Now.ToString("Hmmss");
+                var newId = DateTime.Now.ToString("Hmmss").Substring(0, 5);
                 device.WriteId(newId);
 
                 var newIdCheck = device.ReadId();
