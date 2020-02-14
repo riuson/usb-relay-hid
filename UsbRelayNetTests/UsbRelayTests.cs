@@ -1,5 +1,5 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System;
 using System.Linq;
 using System.Reflection;
 using UsbRelayNet.RelayLib;
@@ -10,52 +10,52 @@ namespace UsbRelayNetTests {
         public void CanCollectDevices() {
             var en = new Enumerator();
 
-            var devices = en.CollectDevices();
+            var relaysInfo = en.CollectDevices();
 
-            Assert.That(devices.Count(), Is.GreaterThan(0), "At least one device should be connected, but found {0}!", devices.Count());
+            Assert.That(relaysInfo.Count(), Is.GreaterThan(0), "At least one module should be connected, but found {0}!", relaysInfo.Count());
         }
 
         [Test]
         public void CanGetChannelsCount() {
             var en = new Enumerator();
 
-            var devices = en.CollectDevices();
-            var device = devices.First();
+            var relaysInfo = en.CollectDevices();
+            var relayInfo = relaysInfo.First();
 
-            Assert.That(device.ChannelsCount, Is.GreaterThanOrEqualTo(1));
-            Assert.That(device.ChannelsCount, Is.LessThanOrEqualTo(8));
+            Assert.That(relayInfo.ChannelsCount, Is.GreaterThanOrEqualTo(1));
+            Assert.That(relayInfo.ChannelsCount, Is.LessThanOrEqualTo(8));
         }
 
         [Test]
         public void CanOpenClose() {
             var en = new Enumerator();
 
-            var devicesInfo = en.CollectDevices();
-            var deviceInfo = devicesInfo.First();
-            var device = new Relay(deviceInfo);
+            var relaysInfo = en.CollectDevices();
+            var relayInfo = relaysInfo.First();
+            var relay = new Relay(relayInfo);
 
-            Assert.That(device.IsOpened, Is.False);
+            Assert.That(relay.IsOpened, Is.False);
 
-            var opened = device.Open();
+            var opened = relay.Open();
             Assert.That(opened, Is.True);
-            Assert.That(device.IsOpened, Is.True);
+            Assert.That(relay.IsOpened, Is.True);
 
-            device.Close();
-            Assert.That(device.IsOpened, Is.False);
+            relay.Close();
+            Assert.That(relay.IsOpened, Is.False);
         }
 
         [Test]
         public void CanReadStatus() {
             var en = new Enumerator();
 
-            var devicesInfo = en.CollectDevices();
-            var deviceInfo = devicesInfo.First();
-            var device = new Relay(deviceInfo);
+            var relaysInfo = en.CollectDevices();
+            var relayInfo = relaysInfo.First();
+            var relay = new Relay(relayInfo);
 
-            if (device.Open()) {
-                device.ReadStatus();
+            if (relay.Open()) {
+                relay.ReadStatus();
 
-                device.Close();
+                relay.Close();
             }
         }
 
@@ -63,16 +63,16 @@ namespace UsbRelayNetTests {
         public void CanReadId() {
             var en = new Enumerator();
 
-            var devicesInfo = en.CollectDevices();
-            var deviceInfo = devicesInfo.First();
-            var device = new Relay(deviceInfo);
+            var relaysInfo = en.CollectDevices();
+            var relayInfo = relaysInfo.First();
+            var relay = new Relay(relayInfo);
 
-            if (device.Open()) {
-                var id = device.ReadId();
+            if (relay.Open()) {
+                var id = relay.ReadId();
 
                 Assert.That(id.Length, Is.EqualTo(5));
 
-                device.Close();
+                relay.Close();
             }
         }
 
@@ -80,22 +80,22 @@ namespace UsbRelayNetTests {
         public void CanWriteId() {
             var en = new Enumerator();
 
-            var devicesInfo = en.CollectDevices();
-            var deviceInfo = devicesInfo.First();
-            var device = new Relay(deviceInfo);
+            var relaysInfo = en.CollectDevices();
+            var relayInfo = relaysInfo.First();
+            var relay = new Relay(relayInfo);
 
-            if (device.Open()) {
-                var id = device.ReadId();
+            if (relay.Open()) {
+                var id = relay.ReadId();
 
                 var newId = DateTime.Now.ToString("Hmmss").Substring(0, 5);
-                device.WriteId(newId);
+                relay.WriteId(newId);
 
-                var newIdCheck = device.ReadId();
+                var newIdCheck = relay.ReadId();
 
                 Assert.That(id, Is.Not.EqualTo(newIdCheck));
                 Assert.That(newIdCheck, Is.EqualTo(newId));
 
-                device.Close();
+                relay.Close();
             }
         }
 
@@ -103,28 +103,28 @@ namespace UsbRelayNetTests {
         public void CanReadWriteOneChannel([Range(1, 8)]int channel) {
             var en = new Enumerator();
 
-            var devicesInfo = en.CollectDevices();
-            var deviceInfo = devicesInfo.First();
-            var device = new Relay(deviceInfo);
+            var relaysInfo = en.CollectDevices();
+            var relayInfo = relaysInfo.First();
+            var relay = new Relay(relayInfo);
 
-            if (device.ChannelsCount < channel) {
+            if (relay.ChannelsCount < channel) {
                 return;
             }
 
-            if (device.Open()) {
-                device.WriteChannel(channel, false);
-                var state = device.ReadChannel(channel);
+            if (relay.Open()) {
+                relay.WriteChannel(channel, false);
+                var state = relay.ReadChannel(channel);
                 Assert.That(state, Is.False);
 
-                device.WriteChannel(channel, true);
-                state = device.ReadChannel(channel);
+                relay.WriteChannel(channel, true);
+                state = relay.ReadChannel(channel);
                 Assert.That(state, Is.True);
 
-                device.WriteChannel(channel, false);
-                state = device.ReadChannel(channel);
+                relay.WriteChannel(channel, false);
+                state = relay.ReadChannel(channel);
                 Assert.That(state, Is.False);
 
-                device.Close();
+                relay.Close();
             }
         }
 
@@ -132,30 +132,30 @@ namespace UsbRelayNetTests {
         public void CanWriteAllChannels() {
             var en = new Enumerator();
 
-            var devicesInfo = en.CollectDevices();
-            var deviceInfo = devicesInfo.First();
-            var device = new Relay(deviceInfo);
+            var relaysInfo = en.CollectDevices();
+            var relayInfo = relaysInfo.First();
+            var relay = new Relay(relayInfo);
 
             var mask = 0;
 
-            for (var i = device.ChannelsCount - 1; i >= 0; i--) {
+            for (var i = relay.ChannelsCount - 1; i >= 0; i--) {
                 mask |= 1 << i;
             }
 
-            if (device.Open()) {
-                device.WriteChannels(false);
-                var status = device.ReadStatus();
+            if (relay.Open()) {
+                relay.WriteChannels(false);
+                var status = relay.ReadStatus();
                 Assert.That(status & mask, Is.EqualTo(0));
 
-                device.WriteChannels(true);
-                status = device.ReadStatus();
+                relay.WriteChannels(true);
+                status = relay.ReadStatus();
                 Assert.That(status & mask, Is.EqualTo(mask));
 
-                device.WriteChannels(false);
-                status = device.ReadStatus();
+                relay.WriteChannels(false);
+                status = relay.ReadStatus();
                 Assert.That(status & mask, Is.EqualTo(0));
 
-                device.Close();
+                relay.Close();
             }
         }
 
