@@ -83,15 +83,6 @@ namespace UsbRelayNet.RelayLib {
         }
 
         /// <summary>
-        /// Read state of all channels.
-        /// </summary>
-        /// <returns>State of channels.</returns>
-        public int ReadStatus() {
-            this.ReadStatusRaw(out _, out var status);
-            return status;
-        }
-
-        /// <summary>
         /// Reads Id of the relay module.
         /// </summary>
         /// <returns>Id of the relay module.</returns>
@@ -138,8 +129,17 @@ namespace UsbRelayNet.RelayLib {
                 throw new ArgumentOutOfRangeException(nameof(channel), channel, "Channel index should be in the range 1…8!");
             }
 
-            var status = this.ReadStatus();
+            var status = this.ReadChannels();
             return (status & (1 << (channel - 1))) != 0;
+        }
+
+        /// <summary>
+        /// Read state of all channels.
+        /// </summary>
+        /// <returns>State of channels.</returns>
+        public int ReadChannels() {
+            this.ReadStatusRaw(out _, out var status);
+            return status;
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace UsbRelayNet.RelayLib {
             buffer[2] = 0;
 
             if (this._device.SetFeature(0, buffer)) {
-                var status = this.ReadStatus();
+                var status = this.ReadChannels();
 
                 var mask = 0;
 

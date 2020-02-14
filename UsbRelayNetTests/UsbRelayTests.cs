@@ -53,7 +53,7 @@ namespace UsbRelayNetTests {
             var relay = new Relay(relayInfo);
 
             if (relay.Open()) {
-                relay.ReadStatus();
+                relay.ReadChannels();
 
                 relay.Close();
             }
@@ -144,15 +144,15 @@ namespace UsbRelayNetTests {
 
             if (relay.Open()) {
                 relay.WriteChannels(false);
-                var status = relay.ReadStatus();
+                var status = relay.ReadChannels();
                 Assert.That(status & mask, Is.EqualTo(0));
 
                 relay.WriteChannels(true);
-                status = relay.ReadStatus();
+                status = relay.ReadChannels();
                 Assert.That(status & mask, Is.EqualTo(mask));
 
                 relay.WriteChannels(false);
-                status = relay.ReadStatus();
+                status = relay.ReadChannels();
                 Assert.That(status & mask, Is.EqualTo(0));
 
                 relay.Close();

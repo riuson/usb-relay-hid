@@ -110,7 +110,7 @@ namespace DemoUI {
 
         private void UpdateChannelsStatus() {
             if (this._selectedRelay?.IsOpened ?? false) {
-                var channelsStatus = this._selectedRelay.ReadStatus();
+                var channelsStatus = this._selectedRelay.ReadChannels();
 
                 for (var i = 0; i < 8; i++) {
                     if (i < this._selectedRelay.ChannelsCount) {
