@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 using UsbRelayNet.Win32;
 
 namespace UsbRelayNet.HidLib {
-    internal class Enumerator {
-        public Enumerator() {
+    internal class HidEnumerator {
+        public HidEnumerator() {
         }
 
-        public IEnumerable<HidDeviceInfo> CollectDevices() {
+        public IEnumerable<HidDeviceInfo> CollectInfo() {
             var result = new List<HidDeviceInfo>();
 
             Hid.HidD_GetHidGuid(out var hidGuid);

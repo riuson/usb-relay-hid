@@ -8,18 +8,18 @@ namespace UsbRelayNetTests {
     public class UsbRelayTests {
         [Test]
         public void CanCollectDevices() {
-            var en = new Enumerator();
+            var en = new RelaysEnumerator();
 
-            var relaysInfo = en.CollectDevices();
+            var relaysInfo = en.CollectInfo();
 
             Assert.That(relaysInfo.Count(), Is.GreaterThan(0), "At least one module should be connected, but found {0}!", relaysInfo.Count());
         }
 
         [Test]
         public void CanGetChannelsCount() {
-            var en = new Enumerator();
+            var en = new RelaysEnumerator();
 
-            var relaysInfo = en.CollectDevices();
+            var relaysInfo = en.CollectInfo();
             var relayInfo = relaysInfo.First();
 
             Assert.That(relayInfo.ChannelsCount, Is.GreaterThanOrEqualTo(1));
@@ -28,9 +28,9 @@ namespace UsbRelayNetTests {
 
         [Test]
         public void CanOpenClose() {
-            var en = new Enumerator();
+            var en = new RelaysEnumerator();
 
-            var relaysInfo = en.CollectDevices();
+            var relaysInfo = en.CollectInfo();
             var relayInfo = relaysInfo.First();
             var relay = new Relay(relayInfo);
 
@@ -46,9 +46,9 @@ namespace UsbRelayNetTests {
 
         [Test]
         public void CanReadStatus() {
-            var en = new Enumerator();
+            var en = new RelaysEnumerator();
 
-            var relaysInfo = en.CollectDevices();
+            var relaysInfo = en.CollectInfo();
             var relayInfo = relaysInfo.First();
             var relay = new Relay(relayInfo);
 
@@ -61,9 +61,9 @@ namespace UsbRelayNetTests {
 
         [Test]
         public void CanReadId() {
-            var en = new Enumerator();
+            var en = new RelaysEnumerator();
 
-            var relaysInfo = en.CollectDevices();
+            var relaysInfo = en.CollectInfo();
             var relayInfo = relaysInfo.First();
             var relay = new Relay(relayInfo);
 
@@ -78,9 +78,9 @@ namespace UsbRelayNetTests {
 
         [Test]
         public void CanWriteId() {
-            var en = new Enumerator();
+            var en = new RelaysEnumerator();
 
-            var relaysInfo = en.CollectDevices();
+            var relaysInfo = en.CollectInfo();
             var relayInfo = relaysInfo.First();
             var relay = new Relay(relayInfo);
 
@@ -101,9 +101,9 @@ namespace UsbRelayNetTests {
 
         [Test]
         public void CanReadWriteOneChannel([Range(1, 8)]int channel) {
-            var en = new Enumerator();
+            var en = new RelaysEnumerator();
 
-            var relaysInfo = en.CollectDevices();
+            var relaysInfo = en.CollectInfo();
             var relayInfo = relaysInfo.First();
             var relay = new Relay(relayInfo);
 
@@ -130,9 +130,9 @@ namespace UsbRelayNetTests {
 
         [Test]
         public void CanWriteAllChannels() {
-            var en = new Enumerator();
+            var en = new RelaysEnumerator();
 
-            var relaysInfo = en.CollectDevices();
+            var relaysInfo = en.CollectInfo();
             var relayInfo = relaysInfo.First();
             var relay = new Relay(relayInfo);
 
@@ -161,7 +161,7 @@ namespace UsbRelayNetTests {
 
         [Test]
         public void HasVersionInfo() {
-            var assembly = typeof(Enumerator).Assembly;
+            var assembly = typeof(RelaysEnumerator).Assembly;
 
             var versionAttribute1 = assembly
                 .GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false)

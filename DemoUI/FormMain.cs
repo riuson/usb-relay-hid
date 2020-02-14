@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,7 +10,7 @@ namespace DemoUI {
         private Button[] _buttonsOpen;
         private Button[] _buttonsClose;
         private Label[] _labelsStatus;
-        private readonly Enumerator _relaysEnumerator = new Enumerator();
+        private readonly RelaysEnumerator _relaysEnumerator = new RelaysEnumerator();
         private Relay _selectedRelay = null;
 
         public FormMain() {
@@ -129,7 +128,7 @@ namespace DemoUI {
 
         private void buttonFindDevice_Click(object sender, System.EventArgs e) {
             this.comboBoxPath.Items.Clear();
-            var items = this._relaysEnumerator.CollectDevices()
+            var items = this._relaysEnumerator.CollectInfo()
                 .Select(x => new RelayItem(x))
                 .ToArray();
             this.comboBoxPath.Items.AddRange(items);

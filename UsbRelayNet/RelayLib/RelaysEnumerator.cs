@@ -6,20 +6,20 @@ namespace UsbRelayNet.RelayLib {
     /// <summary>
     /// The class searches and collects information about connected USB relay modules.
     /// </summary>
-    public class Enumerator {
+    public class RelaysEnumerator {
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public Enumerator() {
+        public RelaysEnumerator() {
         }
 
         /// <summary>
         /// Search and collect information.
         /// </summary>
         /// <returns>A collection of information about devices found..</returns>
-        public IEnumerable<RelayInfo> CollectDevices() {
-            var usbHid = new HidLib.Enumerator();
-            var result = usbHid.CollectDevices()
+        public IEnumerable<RelayInfo> CollectInfo() {
+            var usbHid = new HidLib.HidEnumerator();
+            var result = usbHid.CollectInfo()
                 .Where(x => x.VendorID == 0x16C0 && x.ProductId == 0x05DF)
                 .Select(this.GetInfo)
                 .Where(x => x != null)
