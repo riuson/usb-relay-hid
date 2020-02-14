@@ -1,7 +1,7 @@
 usb-relay-hid
 =============
 
-![USB Relay Module 2 channels](https://github.com/riuson/usb-relay-hid/wiki/Images/usb-relay-module-2ch-1.jpg)
+![USB Relay Module 2 channels](https://github.com/riuson/usb-relay-hid/wiki/images/usb-relay-module-2ch-1-small.jpg)
 
 This project presents open-source managed library for USB HID relay modules.
 
