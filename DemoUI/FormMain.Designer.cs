@@ -173,7 +173,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "FormMain";
             this.Padding = new System.Windows.Forms.Padding(5);
-            this.Text = "FormMain";
+            this.Text = "USB HID Relay Module Control Demo";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

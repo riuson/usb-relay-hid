@@ -11,6 +11,6 @@ namespace DemoUI {
         public RelayInfo RelayInfo => this._relayInfo;
 
 
-        public override string ToString() => this._relayInfo.HidInfo.Path;
+        public override string ToString() => $"#{this._relayInfo.Id}  @ '{this._relayInfo.HidInfo.Path}'";
     }
 }
