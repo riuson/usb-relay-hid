@@ -24,7 +24,7 @@ namespace DemoUI {
             this._labelsName = Enumerable.Range(0, 8)
                 .Select(i => new Label() {
                     Anchor = AnchorStyles.None,
-                    Text = $@"Relay {i + 1}",
+                    Text = $@"Channel {i + 1}",
                     AutoSize = true,
                 })
                 .ToArray();
