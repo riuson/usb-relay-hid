@@ -5,13 +5,11 @@ using UsbRelayNet.Win32;
 
 namespace UsbRelayNet.HidLib {
     internal class HidEnumerator {
-        public HidEnumerator() {
-        }
-
         public IEnumerable<HidDeviceInfo> CollectInfo() {
             var result = new List<HidDeviceInfo>();
+            Guid hidGuid;
 
-            Hid.HidD_GetHidGuid(out var hidGuid);
+            Hid.HidD_GetHidGuid(out hidGuid);
 
             var deviceInfoList = SetupApi.SetupDiGetClassDevs(ref hidGuid, null, IntPtr.Zero,
                 Constants.DIGCF_DEVICEINTERFACE | Constants.DIGCF_PRESENT);
@@ -20,7 +18,7 @@ namespace UsbRelayNet.HidLib {
                 var deviceInfo = new SetupApi.SP_DEVICE_INTERFACE_DATA();
                 deviceInfo.cbSize = Marshal.SizeOf(deviceInfo);
 
-                for (var i = 0; ; i++) {
+                for (var i = 0;; i++) {
                     if (!SetupApi.SetupDiEnumDeviceInterfaces(deviceInfoList, 0, ref hidGuid, Convert.ToUInt32(i),
                         ref deviceInfo)) {
                         break;
@@ -55,10 +53,11 @@ namespace UsbRelayNet.HidLib {
 
         private string GetPath(IntPtr deviceInfoList, SetupApi.SP_DEVICE_INTERFACE_DATA deviceInfo) {
             var deviceInterfaceDetailData = IntPtr.Zero;
+            uint needed;
 
             if (!SetupApi.SetupDiGetDeviceInterfaceDetail(deviceInfoList, ref deviceInfo,
                 IntPtr.Zero, 0,
-                out var needed, IntPtr.Zero)) {
+                out needed, IntPtr.Zero)) {
                 var error = Marshal.GetLastWin32Error();
 
                 if (error != 122) {

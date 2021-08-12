@@ -10,13 +10,21 @@ namespace UsbRelayNet.HidLib {
             this._handle = Constants.INVALID_HANDLE_VALUE;
         }
 
-        public void Dispose() => this.Close();
+        public bool IsOpened {
+            get {
+                return this._handle != Constants.INVALID_HANDLE_VALUE;
+            }
+        }
+
+        public void Dispose() {
+            this.Close();
+        }
 
         public bool Open(string path, bool shared = false) {
             var handle = Kernel32.CreateFile(
                 path,
                 Constants.GENERIC_READ | Constants.GENERIC_WRITE,
-                (shared ? (Constants.FILE_SHARE_WRITE | Constants.FILE_SHARE_READ) : 0),
+                shared ? Constants.FILE_SHARE_WRITE | Constants.FILE_SHARE_READ : 0,
                 IntPtr.Zero,
                 Constants.OPEN_EXISTING,
                 0,
@@ -36,8 +44,6 @@ namespace UsbRelayNet.HidLib {
                 this._handle = Constants.INVALID_HANDLE_VALUE;
             }
         }
-
-        public bool IsOpened => this._handle != Constants.INVALID_HANDLE_VALUE;
 
         public Hid.HidD_Attributes GetAttributes() {
             var attributes = new Hid.HidD_Attributes();
@@ -66,7 +72,7 @@ namespace UsbRelayNet.HidLib {
 
         public bool SetFeature(int reportNumber, byte[] data) {
             if (data.Length > 64) {
-                throw new ArgumentException("Array too large!", nameof(data));
+                throw new ArgumentException("Array too large!", "data");
             }
 
             data[0] = Convert.ToByte(reportNumber);

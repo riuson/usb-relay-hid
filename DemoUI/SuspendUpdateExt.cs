@@ -19,6 +19,8 @@ namespace DemoUI {
             }
         }
 
-        public static void SuspendDrawing(this Control control) => SendMessage(control.Handle, WM_SETREDRAW, false, 0);
+        public static void SuspendDrawing(this Control control) {
+            SendMessage(control.Handle, WM_SETREDRAW, false, 0);
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace UsbRelayNet.RelayLib {
     /// <summary>
-    /// Information about found relay module.
+    ///     Information about found relay module.
     /// </summary>
     public class RelayInfo {
         private RelayInfo() {
@@ -15,16 +15,18 @@ namespace UsbRelayNet.RelayLib {
         }
 
         /// <summary>
-        /// Id of relay module.
+        ///     Id of relay module.
         /// </summary>
         public string Id { get; set; }
+
         /// <summary>
-        /// Number of channels available on relay module.
+        ///     Number of channels available on relay module.
         /// </summary>
-        public int ChannelsCount { get; }
+        public int ChannelsCount { get; private set; }
+
         /// <summary>
-        /// Information about HID.
+        ///     Information about HID.
         /// </summary>
-        public HidDeviceInfo HidInfo { get; }
+        public HidDeviceInfo HidInfo { get; private set; }
     }
 }

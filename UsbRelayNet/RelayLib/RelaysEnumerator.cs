@@ -4,21 +4,15 @@ using UsbRelayNet.HidLib;
 
 namespace UsbRelayNet.RelayLib {
     /// <summary>
-    /// The class searches and collects information about connected USB relay modules.
+    ///     The class searches and collects information about connected USB relay modules.
     /// </summary>
     public class RelaysEnumerator {
         /// <summary>
-        /// Default constructor.
-        /// </summary>
-        public RelaysEnumerator() {
-        }
-
-        /// <summary>
-        /// Search and collect information.
+        ///     Search and collect information.
         /// </summary>
         /// <returns>A collection of information about devices found..</returns>
         public IEnumerable<RelayInfo> CollectInfo() {
-            var usbHid = new HidLib.HidEnumerator();
+            var usbHid = new HidEnumerator();
             var result = usbHid.CollectInfo()
                 .Where(x => x.VendorID == 0x16C0 && x.ProductId == 0x05DF)
                 .Select(this.GetInfo)
