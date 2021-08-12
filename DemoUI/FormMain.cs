@@ -24,7 +24,7 @@ namespace DemoUI {
             this._labelsName = Enumerable.Range(0, 8)
                 .Select(i => new Label {
                     Anchor = AnchorStyles.None,
-                    Text = $@"Channel {i + 1}",
+                    Text = string.Format(@"Channel {0}", i + 1),
                     AutoSize = true
                 })
                 .ToArray();
@@ -67,7 +67,7 @@ namespace DemoUI {
             this.SuspendDrawing();
 
             var relaysFound = this.comboBoxPath.Items.Count > 0;
-            var connected = this._selectedRelay?.IsOpened ?? false;
+            var connected = this._selectedRelay != null && this._selectedRelay.IsOpened;
 
             this._labelsName.ForEach(label => label.Enabled = relaysFound);
             this._labelsStatus.ForEach(label => label.Enabled = relaysFound);
@@ -114,7 +114,7 @@ namespace DemoUI {
         }
 
         private void UpdateChannelsStatus() {
-            if (this._selectedRelay?.IsOpened ?? false) {
+            if (this._selectedRelay != null && this._selectedRelay.IsOpened) {
                 var channelsStatus = this._selectedRelay.ReadChannels();
 
                 for (var i = 0; i < 8; i++) {
@@ -174,7 +174,8 @@ namespace DemoUI {
 
         private void OnChannelOpen(object sender, EventArgs e) {
             if (this._selectedRelay != null) {
-                var channel = Convert.ToInt32((sender as Button)?.Tag ?? -1);
+                var button = sender as Button;
+                var channel = Convert.ToInt32(button != null ? button.Tag : -1);
 
                 if (channel >= 0) {
                     this._selectedRelay.WriteChannel(channel + 1, true);
@@ -185,7 +186,8 @@ namespace DemoUI {
 
         private void OnChannelClose(object sender, EventArgs e) {
             if (this._selectedRelay != null) {
-                var channel = Convert.ToInt32((sender as Button)?.Tag ?? -1);
+                var button = sender as Button;
+                var channel = Convert.ToInt32(button != null ? button.Tag : -1);
 
                 if (channel >= 0) {
                     this._selectedRelay.WriteChannel(channel + 1, false);
@@ -205,7 +207,7 @@ namespace DemoUI {
         }
 
         private void buttonSetId_Click(object sender, EventArgs e) {
-            if (this._selectedRelay?.IsOpened ?? false) {
+            if (this._selectedRelay != null && this._selectedRelay.IsOpened) {
                 this._selectedRelay.WriteId(this.textBoxId.Text);
             }
 

@@ -43,7 +43,14 @@ namespace UsbRelayNet.Win32 {
             /// <summary>
             ///     Specifies the manufacturer's revision number for a HIDClass device as string.
             /// </summary>
-            public string VersionString => $"{(this.VersionNumber >> 8) & 0xff}.{this.VersionNumber & 0xff}";
+            public string VersionString {
+                get {
+                    return string.Format(
+                        "{0}.{1}",
+                        (this.VersionNumber >> 8) & 0xff,
+                        this.VersionNumber & 0xff);
+                }
+            }
         }
 
         #endregion

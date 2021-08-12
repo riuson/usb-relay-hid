@@ -27,12 +27,16 @@ namespace UsbRelayNet.RelayLib {
         /// <summary>
         ///     Underlying HID info
         /// </summary>
-        public HidDeviceInfo Info { get; }
+        public HidDeviceInfo Info { get; private set; }
 
         /// <summary>
         ///     True, if connection established.
         /// </summary>
-        public bool IsOpened => this._device.IsOpened;
+        public bool IsOpened {
+            get {
+                return this._device.IsOpened;
+            }
+        }
 
         /// <summary>
         ///     Number of channels available on relay module.
@@ -51,24 +55,31 @@ namespace UsbRelayNet.RelayLib {
         }
 
         /// <inheritdoc />
-        public void Dispose() => this._device.Dispose();
+        public void Dispose() {
+            this._device.Dispose();
+        }
 
         /// <summary>
         ///     Establishes a connection to the relay module.
         /// </summary>
         /// <returns>True, if the operation is successful.</returns>
-        public bool Open() => this._device.Open(this.Info.Path);
+        public bool Open() {
+            return this._device.Open(this.Info.Path);
+        }
 
         /// <summary>
         ///     Terminates the connection with the relay module.
         /// </summary>
-        public void Close() => this._device.Close();
+        public void Close() {
+            this._device.Close();
+        }
 
         private void ReadStatusRaw(out byte[] rawData, out int status) {
             var reportNumber = 0;
             var length = 8 + 1; /* report id 1 byte + 8 bytes data */
+            byte[] buffer;
 
-            if (!this._device.GetFeature(reportNumber, out var buffer)) {
+            if (!this._device.GetFeature(reportNumber, out buffer)) {
                 throw new Exception("Error reading status");
             }
 
@@ -87,7 +98,9 @@ namespace UsbRelayNet.RelayLib {
         /// </summary>
         /// <returns>Id of the relay module.</returns>
         public string ReadId() {
-            this.ReadStatusRaw(out var rawData, out _);
+            byte[] rawData;
+            int status;
+            this.ReadStatusRaw(out rawData, out status);
 
             if (Enumerable.Range(1, 5).Select(i => rawData[i]).All(x => x >= 0x20 && x <= 0x7f)) {
                 if (rawData[6] == 0) {
@@ -126,7 +139,7 @@ namespace UsbRelayNet.RelayLib {
         /// <returns>State of channel.</returns>
         public bool ReadChannel(int channel) {
             if (channel < 1 || channel > 8) {
-                throw new ArgumentOutOfRangeException(nameof(channel), channel,
+                throw new ArgumentOutOfRangeException("channel", channel,
                     "Channel index should be in the range 1…8!");
             }
 
@@ -139,7 +152,9 @@ namespace UsbRelayNet.RelayLib {
         /// </summary>
         /// <returns>State of channels.</returns>
         public int ReadChannels() {
-            this.ReadStatusRaw(out _, out var status);
+            byte[] rawData;
+            int status;
+            this.ReadStatusRaw(out rawData, out status);
             return status;
         }
 
@@ -151,7 +166,7 @@ namespace UsbRelayNet.RelayLib {
         /// <returns>True, if state was successfully changed.</returns>
         public bool WriteChannel(int channel, bool state) {
             if (channel < 1 || channel > 8) {
-                throw new ArgumentOutOfRangeException(nameof(channel), channel,
+                throw new ArgumentOutOfRangeException("channel", channel,
                     "Channel index should be in the range 1…8!");
             }
 

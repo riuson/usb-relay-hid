@@ -8,9 +8,18 @@ namespace DemoUI {
             this._relayInfo = relayInfo;
         }
 
-        public RelayInfo RelayInfo => this._relayInfo;
+        public RelayInfo RelayInfo {
+            get {
+                return this._relayInfo;
+            }
+        }
 
 
-        public override string ToString() => $"#{this._relayInfo.Id}  @ '{this._relayInfo.HidInfo.Path}'";
+        public override string ToString() {
+            return string.Format(
+                "#{0}  @ '{1}'",
+                this._relayInfo.Id,
+                this._relayInfo.HidInfo.Path);
+        }
     }
 }

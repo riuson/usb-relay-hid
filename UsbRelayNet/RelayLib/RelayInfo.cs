@@ -22,11 +22,11 @@ namespace UsbRelayNet.RelayLib {
         /// <summary>
         ///     Number of channels available on relay module.
         /// </summary>
-        public int ChannelsCount { get; }
+        public int ChannelsCount { get; private set; }
 
         /// <summary>
         ///     Information about HID.
         /// </summary>
-        public HidDeviceInfo HidInfo { get; }
+        public HidDeviceInfo HidInfo { get; private set; }
     }
 }

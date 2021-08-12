@@ -7,8 +7,9 @@ namespace UsbRelayNet.HidLib {
     internal class HidEnumerator {
         public IEnumerable<HidDeviceInfo> CollectInfo() {
             var result = new List<HidDeviceInfo>();
+            Guid hidGuid;
 
-            Hid.HidD_GetHidGuid(out var hidGuid);
+            Hid.HidD_GetHidGuid(out hidGuid);
 
             var deviceInfoList = SetupApi.SetupDiGetClassDevs(ref hidGuid, null, IntPtr.Zero,
                 Constants.DIGCF_DEVICEINTERFACE | Constants.DIGCF_PRESENT);
@@ -52,10 +53,11 @@ namespace UsbRelayNet.HidLib {
 
         private string GetPath(IntPtr deviceInfoList, SetupApi.SP_DEVICE_INTERFACE_DATA deviceInfo) {
             var deviceInterfaceDetailData = IntPtr.Zero;
+            uint needed;
 
             if (!SetupApi.SetupDiGetDeviceInterfaceDetail(deviceInfoList, ref deviceInfo,
                 IntPtr.Zero, 0,
-                out var needed, IntPtr.Zero)) {
+                out needed, IntPtr.Zero)) {
                 var error = Marshal.GetLastWin32Error();
 
                 if (error != 122) {
