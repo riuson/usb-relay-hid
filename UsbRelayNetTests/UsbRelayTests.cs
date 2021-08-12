@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
+using NUnit.Framework;
 using UsbRelayNet.RelayLib;
 
 namespace UsbRelayNetTests {
@@ -12,7 +12,8 @@ namespace UsbRelayNetTests {
 
             var relaysInfo = en.CollectInfo();
 
-            Assert.That(relaysInfo.Count(), Is.GreaterThan(0), "At least one module should be connected, but found {0}!", relaysInfo.Count());
+            Assert.That(relaysInfo.Count(), Is.GreaterThan(0),
+                "At least one module should be connected, but found {0}!", relaysInfo.Count());
         }
 
         [Test]
@@ -100,7 +101,7 @@ namespace UsbRelayNetTests {
         }
 
         [Test]
-        public void CanReadWriteOneChannel([Range(1, 8)]int channel) {
+        public void CanReadWriteOneChannel([Range(1, 8)] int channel) {
             var en = new RelaysEnumerator();
 
             var relaysInfo = en.CollectInfo();

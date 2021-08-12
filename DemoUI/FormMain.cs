@@ -6,12 +6,12 @@ using UsbRelayNet.RelayLib;
 
 namespace DemoUI {
     public partial class FormMain : Form {
-        private Label[] _labelsName;
-        private Button[] _buttonsOpen;
-        private Button[] _buttonsClose;
-        private Label[] _labelsStatus;
         private readonly RelaysEnumerator _relaysEnumerator = new RelaysEnumerator();
-        private Relay _selectedRelay = null;
+        private Button[] _buttonsClose;
+        private Button[] _buttonsOpen;
+        private Label[] _labelsName;
+        private Label[] _labelsStatus;
+        private Relay _selectedRelay;
 
         public FormMain() {
             this.InitializeComponent();
@@ -22,33 +22,33 @@ namespace DemoUI {
 
         private void CreateUI() {
             this._labelsName = Enumerable.Range(0, 8)
-                .Select(i => new Label() {
+                .Select(i => new Label {
                     Anchor = AnchorStyles.None,
                     Text = $@"Channel {i + 1}",
-                    AutoSize = true,
+                    AutoSize = true
                 })
                 .ToArray();
 
             this._labelsStatus = Enumerable.Range(0, 8)
-                .Select(i => new Label() {
+                .Select(i => new Label {
                     Dock = DockStyle.Fill,
-                    Margin = new Padding(5),
+                    Margin = new Padding(5)
                 })
                 .ToArray();
 
             this._buttonsOpen = Enumerable.Range(0, 8)
-                .Select(i => new Button() {
+                .Select(i => new Button {
                     Anchor = AnchorStyles.Left | AnchorStyles.Right,
                     Text = @"Open",
-                    Tag = i,
+                    Tag = i
                 })
                 .ToArray();
 
             this._buttonsClose = Enumerable.Range(0, 8)
-                .Select(i => new Button() {
+                .Select(i => new Button {
                     Anchor = AnchorStyles.Left | AnchorStyles.Right,
                     Text = @"Close",
-                    Tag = i,
+                    Tag = i
                 })
                 .ToArray();
 
@@ -91,16 +91,21 @@ namespace DemoUI {
                     this.textBoxId.Enabled = true;
                     this.textBoxId.Text = this._selectedRelay.ReadId();
                     this.buttonSetId.Enabled = true;
-
                 } else {
                     this.buttonConnect.Enabled = true;
                     this.buttonDisconnect.Enabled = false;
                 }
 
-                this._labelsName.ForEach((i, label) => label.Enabled = connected && i < this._selectedRelay.ChannelsCount);
-                this._labelsStatus.ForEach((i, label) => label.BackColor = (connected && i < this._selectedRelay.ChannelsCount) ? label.BackColor : Color.Transparent);
-                this._buttonsOpen.ForEach((i, button) => button.Enabled = connected && i < this._selectedRelay.ChannelsCount);
-                this._buttonsClose.ForEach((i, button) => button.Enabled = connected && i < this._selectedRelay.ChannelsCount);
+                this._labelsName.ForEach((i, label) =>
+                    label.Enabled = connected && i < this._selectedRelay.ChannelsCount);
+                this._labelsStatus.ForEach((i, label) =>
+                    label.BackColor = connected && i < this._selectedRelay.ChannelsCount
+                        ? label.BackColor
+                        : Color.Transparent);
+                this._buttonsOpen.ForEach((i, button) =>
+                    button.Enabled = connected && i < this._selectedRelay.ChannelsCount);
+                this._buttonsClose.ForEach((i, button) =>
+                    button.Enabled = connected && i < this._selectedRelay.ChannelsCount);
                 this.buttonOpenAll.Enabled = connected;
                 this.buttonCloseAll.Enabled = connected;
             }
@@ -126,7 +131,7 @@ namespace DemoUI {
             }
         }
 
-        private void buttonFindDevice_Click(object sender, System.EventArgs e) {
+        private void buttonFindDevice_Click(object sender, EventArgs e) {
             this.comboBoxPath.Items.Clear();
             var items = this._relaysEnumerator.CollectInfo()
                 .Select(x => new RelayItem(x))
@@ -140,7 +145,7 @@ namespace DemoUI {
             this.UpdateControls();
         }
 
-        private void buttonConnect_Click(object sender, System.EventArgs e) {
+        private void buttonConnect_Click(object sender, EventArgs e) {
             if (this._selectedRelay == null) {
                 if (this.comboBoxPath.Items.Count > 0) {
                     this._selectedRelay = this.comboBoxPath.Items

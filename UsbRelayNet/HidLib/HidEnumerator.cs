@@ -5,9 +5,6 @@ using UsbRelayNet.Win32;
 
 namespace UsbRelayNet.HidLib {
     internal class HidEnumerator {
-        public HidEnumerator() {
-        }
-
         public IEnumerable<HidDeviceInfo> CollectInfo() {
             var result = new List<HidDeviceInfo>();
 
@@ -20,7 +17,7 @@ namespace UsbRelayNet.HidLib {
                 var deviceInfo = new SetupApi.SP_DEVICE_INTERFACE_DATA();
                 deviceInfo.cbSize = Marshal.SizeOf(deviceInfo);
 
-                for (var i = 0; ; i++) {
+                for (var i = 0;; i++) {
                     if (!SetupApi.SetupDiEnumDeviceInterfaces(deviceInfoList, 0, ref hidGuid, Convert.ToUInt32(i),
                         ref deviceInfo)) {
                         break;
