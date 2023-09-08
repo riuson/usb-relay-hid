@@ -59,32 +59,31 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 11;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.09091F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.09091F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.09091F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.09091F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.09091F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.09091F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.09091F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.09091F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.09091F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.09091F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.09091F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(414, 440);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // buttonFindDevice
             // 
-            this.buttonFindDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonFindDevice.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonFindDevice.Location = new System.Drawing.Point(3, 3);
             this.buttonFindDevice.Name = "buttonFindDevice";
-            this.buttonFindDevice.Size = new System.Drawing.Size(97, 23);
+            this.buttonFindDevice.Size = new System.Drawing.Size(97, 33);
             this.buttonFindDevice.TabIndex = 0;
             this.buttonFindDevice.Text = "Find Device";
             this.buttonFindDevice.UseVisualStyleBackColor = true;
             this.buttonFindDevice.Click += new System.EventHandler(this.buttonFindDevice_Click);
+            this.buttonFindDevice.Paint += new System.Windows.Forms.PaintEventHandler(this.OnControlPaint);
             // 
             // comboBoxPath
             // 
@@ -92,50 +91,53 @@
             this.tableLayoutPanel1.SetColumnSpan(this.comboBoxPath, 3);
             this.comboBoxPath.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPath.FormattingEnabled = true;
-            this.comboBoxPath.Location = new System.Drawing.Point(106, 4);
+            this.comboBoxPath.Location = new System.Drawing.Point(106, 9);
             this.comboBoxPath.Name = "comboBoxPath";
             this.comboBoxPath.Size = new System.Drawing.Size(305, 21);
             this.comboBoxPath.TabIndex = 1;
             // 
             // buttonConnect
             // 
-            this.buttonConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonConnect.Location = new System.Drawing.Point(3, 32);
+            this.buttonConnect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonConnect.Location = new System.Drawing.Point(3, 42);
             this.buttonConnect.Name = "buttonConnect";
-            this.buttonConnect.Size = new System.Drawing.Size(97, 23);
+            this.buttonConnect.Size = new System.Drawing.Size(97, 33);
             this.buttonConnect.TabIndex = 2;
             this.buttonConnect.Text = "Open Device";
             this.buttonConnect.UseVisualStyleBackColor = true;
             this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
+            this.buttonConnect.Paint += new System.Windows.Forms.PaintEventHandler(this.OnControlPaint);
             // 
             // buttonOpenAll
             // 
-            this.buttonOpenAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.SetColumnSpan(this.buttonOpenAll, 2);
-            this.buttonOpenAll.Location = new System.Drawing.Point(3, 413);
+            this.buttonOpenAll.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonOpenAll.Location = new System.Drawing.Point(3, 393);
             this.buttonOpenAll.Name = "buttonOpenAll";
-            this.buttonOpenAll.Size = new System.Drawing.Size(200, 23);
+            this.buttonOpenAll.Size = new System.Drawing.Size(200, 44);
             this.buttonOpenAll.TabIndex = 4;
             this.buttonOpenAll.Text = "Open All";
             this.buttonOpenAll.UseVisualStyleBackColor = true;
             this.buttonOpenAll.Click += new System.EventHandler(this.buttonOpenAll_Click);
+            this.buttonOpenAll.Paint += new System.Windows.Forms.PaintEventHandler(this.OnControlPaint);
             // 
             // buttonCloseAll
             // 
-            this.buttonCloseAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.SetColumnSpan(this.buttonCloseAll, 2);
-            this.buttonCloseAll.Location = new System.Drawing.Point(209, 413);
+            this.buttonCloseAll.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonCloseAll.Location = new System.Drawing.Point(209, 393);
             this.buttonCloseAll.Name = "buttonCloseAll";
-            this.buttonCloseAll.Size = new System.Drawing.Size(202, 23);
+            this.buttonCloseAll.Size = new System.Drawing.Size(202, 44);
             this.buttonCloseAll.TabIndex = 5;
             this.buttonCloseAll.Text = "Close All";
             this.buttonCloseAll.UseVisualStyleBackColor = true;
             this.buttonCloseAll.Click += new System.EventHandler(this.buttonCloseAll_Click);
+            this.buttonCloseAll.Paint += new System.Windows.Forms.PaintEventHandler(this.OnControlPaint);
             // 
             // textBoxId
             // 
-            this.textBoxId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxId.Location = new System.Drawing.Point(209, 33);
+            this.textBoxId.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxId.Location = new System.Drawing.Point(209, 42);
             this.textBoxId.MaxLength = 5;
             this.textBoxId.Name = "textBoxId";
             this.textBoxId.Size = new System.Drawing.Size(97, 20);
@@ -145,25 +147,27 @@
             // 
             // buttonSetId
             // 
-            this.buttonSetId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSetId.Location = new System.Drawing.Point(312, 32);
+            this.buttonSetId.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonSetId.Location = new System.Drawing.Point(312, 42);
             this.buttonSetId.Name = "buttonSetId";
-            this.buttonSetId.Size = new System.Drawing.Size(99, 23);
+            this.buttonSetId.Size = new System.Drawing.Size(99, 33);
             this.buttonSetId.TabIndex = 7;
             this.buttonSetId.Text = "Rename";
             this.buttonSetId.UseVisualStyleBackColor = true;
             this.buttonSetId.Click += new System.EventHandler(this.buttonSetId_Click);
+            this.buttonSetId.Paint += new System.Windows.Forms.PaintEventHandler(this.OnControlPaint);
             // 
             // buttonDisconnect
             // 
-            this.buttonDisconnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDisconnect.Location = new System.Drawing.Point(106, 32);
+            this.buttonDisconnect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonDisconnect.Location = new System.Drawing.Point(106, 42);
             this.buttonDisconnect.Name = "buttonDisconnect";
-            this.buttonDisconnect.Size = new System.Drawing.Size(97, 23);
+            this.buttonDisconnect.Size = new System.Drawing.Size(97, 33);
             this.buttonDisconnect.TabIndex = 8;
             this.buttonDisconnect.Text = "Close Device";
             this.buttonDisconnect.UseVisualStyleBackColor = true;
             this.buttonDisconnect.Click += new System.EventHandler(this.buttonDisconnect_Click);
+            this.buttonDisconnect.Paint += new System.Windows.Forms.PaintEventHandler(this.OnControlPaint);
             // 
             // FormMain
             // 

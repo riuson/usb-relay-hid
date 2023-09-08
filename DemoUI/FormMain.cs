@@ -54,11 +54,11 @@ namespace DemoUI {
 
             this._buttonsOpen.ForEach(button => {
                 button.Click += this.OnChannelOpen;
-                button.Paint += this.OnButtonPaint;
+                button.Paint += this.OnControlPaint;
             });
             this._buttonsClose.ForEach(button => {
                 button.Click += this.OnChannelClose;
-                button.Paint += this.OnButtonPaint;
+                button.Paint += this.OnControlPaint;
             });
 
             for (var i = 0; i < 8; i++) {
@@ -220,15 +220,24 @@ namespace DemoUI {
             this.UpdateControls();
         }
 
-        private void OnButtonPaint(object sender, PaintEventArgs e) {
+        private void OnControlPaint(object sender, PaintEventArgs e) {
             if (sender is Button button) {
-                var font = button.Font;
-                var sourceSize = e.Graphics.MeasureString(button.Text, font);
-                var newFontSize = font.Size * Math.Min(
-                    button.Size.Height / sourceSize.Height,
-                    button.Size.Width / sourceSize.Width);
-                button.Font = new Font(font.FontFamily, newFontSize, font.Style);
+                var oldSize = button.Font.Size;
+                var newFont = this.UpdateFontSizeToFit(e.Graphics, button.Size, button.Text, button.Font);
+
+                if (Math.Abs(newFont.Size - oldSize) > float.Epsilon) {
+                    button.Font = newFont;
+                    button.Invalidate();
+                }
             }
+        }
+
+        private Font UpdateFontSizeToFit(Graphics graphics, Size sizeToFit, string text, Font sourceFont) {
+            var sourceSize = graphics.MeasureString(text, sourceFont);
+            var newFontSize = sourceFont.Size * Math.Min(
+                sizeToFit.Height / sourceSize.Height,
+                sizeToFit.Width / sourceSize.Width);
+            return new Font(sourceFont.FontFamily, newFontSize, sourceFont.Style);
         }
     }
 }
