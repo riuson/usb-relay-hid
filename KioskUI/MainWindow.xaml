@@ -9,5 +9,88 @@
     xmlns:reactiveui="http://reactiveui.net"
     mc:Ignorable="d"
     Title="USB HID Relay Module Control Demo" Height="450" Width="800">
-    <Grid />
+    <Grid x:Name="GridMain"
+          Margin="5">
+        <Grid.Resources>
+            <Style TargetType="Border">
+                <Setter Property="Padding" Value="2,2,2,2" />
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="0"
+                Grid.Row="0">
+            <Button x:Name="ButtonFind">
+                Find
+            </Button>
+        </Border>
+
+        <Border Grid.Column="1"
+                Grid.ColumnSpan="3"
+                Grid.Row="0">
+            <ComboBox x:Name="ComboBoxFound" />
+        </Border>
+
+        <Border Grid.Column="0"
+                Grid.Row="1">
+            <Button x:Name="ButtonOpen">
+                Connect
+            </Button>
+        </Border>
+
+        <Border Grid.Column="1"
+                Grid.Row="1">
+            <Button x:Name="ButtonClose">
+                Disconnect
+            </Button>
+        </Border>
+
+        <Border Grid.Row="1"
+                Grid.Column="2">
+            <TextBox x:Name="TextBoxId"
+                     VerticalContentAlignment="Center"
+                     HorizontalContentAlignment="Center" />
+        </Border>
+
+        <Border Grid.Column="3"
+                Grid.Row="1">
+            <Button x:Name="ButtonRename">
+                Find device
+            </Button>
+        </Border>
+
+        <Border Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Grid.Row="10">
+            <Button x:Name="ButtonOpenAll">
+                Open All
+            </Button>
+        </Border>
+
+        <Border Grid.Column="2"
+                Grid.ColumnSpan="2"
+                Grid.Row="10">
+            <Button x:Name="ButtonCloseAll">
+                Close All
+            </Button>
+        </Border>
+    </Grid>
 </reactiveui:ReactiveWindow>
