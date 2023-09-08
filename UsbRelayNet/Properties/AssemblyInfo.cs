@@ -1,15 +1,5 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
-
-// Общие сведения об этой сборке предоставляются следующим набором
-// набора атрибутов. Измените значения этих атрибутов для изменения сведений,
-// связанные со сборкой.
-[assembly: AssemblyTitle("UsbRelayNet")]
-[assembly: AssemblyDescription("C# managed library to control USB HID Relay Module")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("UsbRelayNet")]
-[assembly: AssemblyCopyright("riuson@gmail.com ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
