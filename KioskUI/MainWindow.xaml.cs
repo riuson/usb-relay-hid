@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using ReactiveUI;
 
 namespace KioskUI {
@@ -12,10 +14,15 @@ namespace KioskUI {
 
             this.ViewModel = new AppViewModel();
 
+            var channelLabels = new List<Label>();
+            var stateLabels = new List<Label>();
+            var openButtons = new List<Button>();
+            var closeButtons = new List<Button>();
+
             for (var i = 0; i < 8; i++) {
                 // Channel labels.
                 var channelLabelBorder = new Border {
-                    Child = new Label {
+                    Child = this.AddToList(channelLabels, new Label {
                         Content = new Viewbox {
                             Child = new TextBlock {
                                 Text = $"Channel {i}",
@@ -23,7 +30,7 @@ namespace KioskUI {
                                 VerticalAlignment = VerticalAlignment.Center
                             }
                         }
-                    },
+                    }),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center
                 };
@@ -33,7 +40,7 @@ namespace KioskUI {
 
                 // Open buttons.
                 var buttonOpenBorder = new Border {
-                    Child = new Button {
+                    Child = this.AddToList(openButtons, new Button {
                         Content = new Viewbox {
                             Child = new TextBlock {
                                 Text = "Open",
@@ -41,7 +48,7 @@ namespace KioskUI {
                                 VerticalAlignment = VerticalAlignment.Center
                             }
                         }
-                    },
+                    }),
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     VerticalAlignment = VerticalAlignment.Stretch
                 };
@@ -51,14 +58,14 @@ namespace KioskUI {
 
                 // State labels.
                 var stateLabelBorder = new Border {
-                    Child = new Label {
+                    Child = this.AddToList(stateLabels, new Label {
                         Content = new Viewbox {
                             Child = new TextBlock {
                                 HorizontalAlignment = HorizontalAlignment.Center,
                                 VerticalAlignment = VerticalAlignment.Center
                             }
                         }
-                    },
+                    }),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center
                 };
@@ -67,7 +74,7 @@ namespace KioskUI {
                 Grid.SetColumn(stateLabelBorder, 2);
 
                 var buttonCloseBorder = new Border {
-                    Child = new Button {
+                    Child = this.AddToList(closeButtons, new Button {
                         Content = new Viewbox {
                             Child = new TextBlock {
                                 Text = "Close",
@@ -75,7 +82,7 @@ namespace KioskUI {
                                 VerticalAlignment = VerticalAlignment.Center
                             }
                         }
-                    },
+                    }),
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     VerticalAlignment = VerticalAlignment.Stretch
                 };
@@ -83,6 +90,11 @@ namespace KioskUI {
                 Grid.SetRow(buttonCloseBorder, i + 2);
                 Grid.SetColumn(buttonCloseBorder, 3);
             }
+        }
+
+        private T AddToList<T>(List<T> list, T control) {
+            list.Add(control);
+            return control;
         }
     }
 }
