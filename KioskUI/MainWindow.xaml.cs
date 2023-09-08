@@ -16,10 +16,12 @@ namespace KioskUI {
                 // Channel labels.
                 var channelLabelBorder = new Border {
                     Child = new Label {
-                        Content = new TextBlock {
-                            Text = $"Channel {i}",
-                            HorizontalAlignment = HorizontalAlignment.Center,
-                            VerticalAlignment = VerticalAlignment.Center
+                        Content = new Viewbox {
+                            Child = new TextBlock {
+                                Text = $"Channel {i}",
+                                HorizontalAlignment = HorizontalAlignment.Center,
+                                VerticalAlignment = VerticalAlignment.Center
+                            }
                         }
                     },
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -32,10 +34,12 @@ namespace KioskUI {
                 // Open buttons.
                 var buttonOpenBorder = new Border {
                     Child = new Button {
-                        Content = new TextBlock {
-                            Text = "Open",
-                            HorizontalAlignment = HorizontalAlignment.Center,
-                            VerticalAlignment = VerticalAlignment.Center
+                        Content = new Viewbox {
+                            Child = new TextBlock {
+                                Text = "Open",
+                                HorizontalAlignment = HorizontalAlignment.Center,
+                                VerticalAlignment = VerticalAlignment.Center
+                            }
                         }
                     },
                     HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -48,10 +52,11 @@ namespace KioskUI {
                 // State labels.
                 var stateLabelBorder = new Border {
                     Child = new Label {
-                        Content = new TextBlock {
-                            Text = $"Channel {i}",
-                            HorizontalAlignment = HorizontalAlignment.Center,
-                            VerticalAlignment = VerticalAlignment.Center
+                        Content = new Viewbox {
+                            Child = new TextBlock {
+                                HorizontalAlignment = HorizontalAlignment.Center,
+                                VerticalAlignment = VerticalAlignment.Center
+                            }
                         }
                     },
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -63,10 +68,12 @@ namespace KioskUI {
 
                 var buttonCloseBorder = new Border {
                     Child = new Button {
-                        Content = new TextBlock {
-                            Text = "Close",
-                            HorizontalAlignment = HorizontalAlignment.Center,
-                            VerticalAlignment = VerticalAlignment.Center
+                        Content = new Viewbox {
+                            Child = new TextBlock {
+                                Text = "Close",
+                                HorizontalAlignment = HorizontalAlignment.Center,
+                                VerticalAlignment = VerticalAlignment.Center
+                            }
                         }
                     },
                     HorizontalAlignment = HorizontalAlignment.Stretch,

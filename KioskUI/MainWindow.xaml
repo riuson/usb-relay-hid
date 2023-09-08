@@ -39,7 +39,11 @@
         <Border Grid.Column="0"
                 Grid.Row="0">
             <Button x:Name="ButtonFind">
-                Find
+                <Viewbox>
+                    <TextBlock>
+                        Find
+                    </TextBlock>
+                </Viewbox>
             </Button>
         </Border>
 
@@ -52,14 +56,22 @@
         <Border Grid.Column="0"
                 Grid.Row="1">
             <Button x:Name="ButtonOpen">
-                Connect
+                <Viewbox>
+                    <TextBlock>
+                        Connect
+                    </TextBlock>
+                </Viewbox>
             </Button>
         </Border>
 
         <Border Grid.Column="1"
                 Grid.Row="1">
             <Button x:Name="ButtonClose">
-                Disconnect
+                <Viewbox>
+                    <TextBlock>
+                        Disconnect
+                    </TextBlock>
+                </Viewbox>
             </Button>
         </Border>
 
@@ -73,7 +85,11 @@
         <Border Grid.Column="3"
                 Grid.Row="1">
             <Button x:Name="ButtonRename">
-                Find device
+                <Viewbox>
+                    <TextBlock>
+                        Rename
+                    </TextBlock>
+                </Viewbox>
             </Button>
         </Border>
 
@@ -81,7 +97,11 @@
                 Grid.ColumnSpan="2"
                 Grid.Row="10">
             <Button x:Name="ButtonOpenAll">
-                Open All
+                <Viewbox>
+                    <TextBlock>
+                        Open All
+                    </TextBlock>
+                </Viewbox>
             </Button>
         </Border>
 
@@ -89,7 +109,11 @@
                 Grid.ColumnSpan="2"
                 Grid.Row="10">
             <Button x:Name="ButtonCloseAll">
-                Close All
+                <Viewbox>
+                    <TextBlock>
+                        Close All
+                    </TextBlock>
+                </Viewbox>
             </Button>
         </Border>
     </Grid>
