@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFrameworks>net472;net6.0-windows</TargetFrameworks>
         <OutputType>WinExe</OutputType>
-        <LangVersion>5</LangVersion>
+        <LangVersion>7</LangVersion>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWindowsForms>true</UseWindowsForms>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>

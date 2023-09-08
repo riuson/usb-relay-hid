@@ -52,8 +52,14 @@ namespace DemoUI {
                 })
                 .ToArray();
 
-            this._buttonsOpen.ForEach(button => { button.Click += this.OnChannelOpen; });
-            this._buttonsClose.ForEach(button => { button.Click += this.OnChannelClose; });
+            this._buttonsOpen.ForEach(button => {
+                button.Click += this.OnChannelOpen;
+                button.Paint += this.OnButtonPaint;
+            });
+            this._buttonsClose.ForEach(button => {
+                button.Click += this.OnChannelClose;
+                button.Paint += this.OnButtonPaint;
+            });
 
             for (var i = 0; i < 8; i++) {
                 this.tableLayoutPanel1.Controls.Add(this._labelsName[i], 0, 2 + i);
@@ -212,6 +218,17 @@ namespace DemoUI {
             }
 
             this.UpdateControls();
+        }
+
+        private void OnButtonPaint(object sender, PaintEventArgs e) {
+            if (sender is Button button) {
+                var font = button.Font;
+                var sourceSize = e.Graphics.MeasureString(button.Text, font);
+                var newFontSize = font.Size * Math.Min(
+                    button.Size.Height / sourceSize.Height,
+                    button.Size.Width / sourceSize.Width);
+                button.Font = new Font(font.FontFamily, newFontSize, font.Style);
+            }
         }
     }
 }

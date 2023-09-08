@@ -5,7 +5,7 @@
         <Copyright>riuson@gmail.com © 2020</Copyright>
         <TargetFramework>netstandard2.0</TargetFramework>
         <OutputType>Library</OutputType>
-        <LangVersion>5</LangVersion>
+        <LangVersion>7</LangVersion>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
