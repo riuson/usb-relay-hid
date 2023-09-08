@@ -38,7 +38,7 @@ namespace DemoUI {
 
             this._buttonsOpen = Enumerable.Range(0, 8)
                 .Select(i => new Button {
-                    Anchor = AnchorStyles.Left | AnchorStyles.Right,
+                    Dock = DockStyle.Fill,
                     Text = @"Open",
                     Tag = i
                 })
@@ -46,7 +46,7 @@ namespace DemoUI {
 
             this._buttonsClose = Enumerable.Range(0, 8)
                 .Select(i => new Button {
-                    Anchor = AnchorStyles.Left | AnchorStyles.Right,
+                    Dock = DockStyle.Fill,
                     Text = @"Close",
                     Tag = i
                 })
