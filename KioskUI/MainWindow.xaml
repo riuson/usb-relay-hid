@@ -50,29 +50,8 @@
         <Border Grid.Column="1"
                 Grid.ColumnSpan="3"
                 Grid.Row="0">
-            <ComboBox x:Name="ComboBoxFound" />
-        </Border>
-
-        <Border Grid.Column="0"
-                Grid.Row="1">
-            <Button x:Name="ButtonOpen">
-                <Viewbox>
-                    <TextBlock>
-                        Connect
-                    </TextBlock>
-                </Viewbox>
-            </Button>
-        </Border>
-
-        <Border Grid.Column="1"
-                Grid.Row="1">
-            <Button x:Name="ButtonClose">
-                <Viewbox>
-                    <TextBlock>
-                        Disconnect
-                    </TextBlock>
-                </Viewbox>
-            </Button>
+            <ComboBox x:Name="ComboBoxFound"
+                      DisplayMemberPath="Title" />
         </Border>
 
         <Border Grid.Row="1"

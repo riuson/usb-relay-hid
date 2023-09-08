@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Reactive.Disposables;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using ReactiveUI;
 
 namespace KioskUI {
@@ -90,6 +90,30 @@ namespace KioskUI {
                 Grid.SetRow(buttonCloseBorder, i + 2);
                 Grid.SetColumn(buttonCloseBorder, 3);
             }
+
+            this.WhenActivated(disposables => {
+                this.BindCommand(this.ViewModel,
+                        vm => vm.CommandFind,
+                        v => v.ButtonFind)
+                    .DisposeWith(disposables);
+                this.BindCommand(this.ViewModel,
+                        vm => vm.CommandOpenAll,
+                        v => v.ButtonOpenAll)
+                    .DisposeWith(disposables);
+                this.BindCommand(this.ViewModel,
+                        vm => vm.CommandCloseAll,
+                        v => v.ButtonCloseAll)
+                    .DisposeWith(disposables);
+
+                this.OneWayBind(this.ViewModel,
+                        vm => vm.FoundRelays,
+                        v => v.ComboBoxFound.ItemsSource)
+                    .DisposeWith(disposables);
+                this.Bind(this.ViewModel,
+                        vm => vm.SelectedRelay,
+                        v => v.ComboBoxFound.SelectedItem)
+                    .DisposeWith(disposables);
+            });
         }
 
         private T AddToList<T>(List<T> list, T control) {
