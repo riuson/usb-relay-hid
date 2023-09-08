@@ -221,13 +221,33 @@ namespace DemoUI {
         }
 
         private void OnControlPaint(object sender, PaintEventArgs e) {
+            void UpdateFontForControl(Control control, Font newFont) {
+                if (Math.Abs(newFont.Size - control.Font.Size) > float.Epsilon) {
+                    control.Font = newFont;
+                    control.Invalidate();
+                }
+            }
+
             if (sender is Button button) {
                 var oldSize = button.Font.Size;
                 var newFont = this.UpdateFontSizeToFit(e.Graphics, button.Size, button.Text, button.Font);
 
+                //UpdateFontForControl(button, newFont);
+                //UpdateFontForControl(this.textBoxId, newFont);
+                //UpdateFontForControl(this.comboBoxPath, newFont);
                 if (Math.Abs(newFont.Size - oldSize) > float.Epsilon) {
                     button.Font = newFont;
                     button.Invalidate();
+                }
+
+                if (Math.Abs(newFont.Size - this.textBoxId.Font.Size) > float.Epsilon) {
+                    this.textBoxId.Font = newFont;
+                    this.textBoxId.Invalidate();
+                }
+
+                if (Math.Abs(newFont.Size - this.textBoxId.Font.Size) > float.Epsilon) {
+                    this.textBoxId.Font = newFont;
+                    this.textBoxId.Invalidate();
                 }
             }
         }

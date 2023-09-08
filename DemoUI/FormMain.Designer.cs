@@ -91,6 +91,7 @@
             this.tableLayoutPanel1.SetColumnSpan(this.comboBoxPath, 3);
             this.comboBoxPath.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPath.FormattingEnabled = true;
+            this.comboBoxPath.IntegralHeight = false;
             this.comboBoxPath.Location = new System.Drawing.Point(106, 9);
             this.comboBoxPath.Name = "comboBoxPath";
             this.comboBoxPath.Size = new System.Drawing.Size(305, 21);
