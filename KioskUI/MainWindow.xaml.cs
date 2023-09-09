@@ -25,6 +25,11 @@ namespace KioskUI {
                         vm => vm.SelectedRelay,
                         v => v.ListBoxFound.SelectedItem)
                     .DisposeWith(disposables);
+
+                this.OneWayBind(this.ViewModel,
+                        vm => vm.Channels,
+                        v => v.ListBoxChannels.ItemsSource)
+                    .DisposeWith(disposables);
             });
         }
     }

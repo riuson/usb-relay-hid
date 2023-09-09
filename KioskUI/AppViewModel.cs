@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Runtime.Remoting;
 using DynamicData;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -11,9 +10,10 @@ using UsbRelayNet.RelayLib;
 
 namespace KioskUI {
     public class AppViewModel : ReactiveObject {
+        private readonly ReadOnlyObservableCollection<ChannelItem> _bindingChannels;
         private readonly ReadOnlyObservableCollection<RelayInfo> _bindingFoundRelays;
-        private readonly SourceList<RelayInfo> _foundRelays = new SourceList<RelayInfo>();
         private readonly SourceList<ChannelItem> _channels = new SourceList<ChannelItem>();
+        private readonly SourceList<RelayInfo> _foundRelays = new SourceList<RelayInfo>();
         private readonly RelaysEnumerator _relaysEnumerator = new RelaysEnumerator();
 
         public AppViewModel() {
@@ -21,6 +21,11 @@ namespace KioskUI {
                 .Connect()
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Bind(out this._bindingFoundRelays)
+                .Subscribe();
+            var channelsDerived = this._channels
+                .Connect()
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Bind(out this._bindingChannels)
                 .Subscribe();
 
             this.CommandFind = ReactiveCommand.Create(this.Find);
@@ -34,6 +39,7 @@ namespace KioskUI {
         [Reactive] public ReactiveCommand<RelayInfo, Unit> CommandReadRelayInfo { get; set; }
 
         public ReadOnlyObservableCollection<RelayInfo> FoundRelays => this._bindingFoundRelays;
+        public ReadOnlyObservableCollection<ChannelItem> Channels => this._bindingChannels;
 
         [Reactive] public RelayInfo SelectedRelay { get; set; }
 
@@ -46,9 +52,15 @@ namespace KioskUI {
 
         private void ReadRelayInfo(RelayInfo relayItem) {
             var relayInfo = this.SelectedRelay;
+            this._channels.Clear();
 
             if (relayInfo != null) {
-                //relayInfo.
+                this._channels.AddRange(
+                    Enumerable.Range(0, relayInfo.ChannelsCount)
+                        .Select(x => new ChannelItem(
+                            relayInfo,
+                            x,
+                            $"Channel {x}")));
             }
         }
     }
