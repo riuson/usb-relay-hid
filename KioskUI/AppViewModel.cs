@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Text.RegularExpressions;
 using DynamicData;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -55,12 +58,47 @@ namespace KioskUI {
             this._channels.Clear();
 
             if (relayInfo != null) {
+                var titles = this.GetChannelTitles(relayInfo.Id)
+                    .ToArray();
+
                 this._channels.AddRange(
                     Enumerable.Range(0, relayInfo.ChannelsCount)
-                        .Select(x => new ChannelItem(
-                            relayInfo,
-                            x,
-                            $"Channel {x}")));
+                        .Select(channel => {
+                            string title;
+
+                            if (titles.Any(x => x.id == relayInfo.Id && x.channel == channel + 1)) {
+                                var item = titles.FirstOrDefault(y => y.id == relayInfo.Id && y.channel == channel + 1);
+                                title = item.title;
+                            } else {
+                                title = $"Channel {channel}";
+                            }
+
+                            return new ChannelItem(
+                                relayInfo,
+                                channel,
+                                title);
+                        }));
+            }
+        }
+
+        private IEnumerable<(string id, int channel, string title)> GetChannelTitles(string id) {
+            var dir = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
+            var file = Path.Combine(dir, "ChannelNames.txt");
+            var lines = File.ReadAllLines(file);
+            var regex = new Regex(@"^(?<id>\w+):(?<channel>\d+):(?<title>.+)$");
+
+            foreach (var line in lines) {
+                var match = regex.Match(line);
+
+                if (match.Success) {
+                    var lineId = match.Groups["id"].Value;
+                    var lineChannel = int.Parse(match.Groups["channel"].Value);
+                    var lineTitle = match.Groups["title"].Value;
+
+                    if (lineId == id) {
+                        yield return (lineId, lineChannel, lineTitle);
+                    }
+                }
             }
         }
     }

@@ -20,4 +20,10 @@
         <PackageReference Include="ReactiveUI.WPF" Version="19.4.1" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Update="ChannelNames.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
 </Project>
