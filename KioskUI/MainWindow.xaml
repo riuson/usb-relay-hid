@@ -106,27 +106,31 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Button Command="{Binding Path=CommandToggle}" CommandParameter="{Binding Path=Channel}">
-                            <Viewbox>
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                                    <Run Text="{Binding Path=Title, Mode=OneWay}" />
-                                </TextBlock>
-                            </Viewbox>
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsOpen}" Value="true">
-                                            <Setter Property="Background" Value="LightGreen" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsOpen}" Value="false">
-                                            <Setter Property="Background" Value="LightCoral" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                        <Viewbox Stretch="Uniform">
+                            <TextBlock
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                TextAlignment="Center">
+                                <TextBlock.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{Binding Path=CommandToggle}"
+                                                  CommandParameter="{Binding Path=Channel}" />
+                                </TextBlock.InputBindings>
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOpen}" Value="true">
+                                                <Setter Property="Background" Value="LightGreen" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsOpen}" Value="false">
+                                                <Setter Property="Background" Value="LightCoral" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                                <Run Text="{Binding Path=Title, Mode=OneWay}" />
+                            </TextBlock>
+                        </Viewbox>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.ItemContainerStyle>
