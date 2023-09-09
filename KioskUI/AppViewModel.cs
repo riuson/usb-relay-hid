@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Media;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Runtime.Remoting;
 using DynamicData;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -11,8 +11,9 @@ using UsbRelayNet.RelayLib;
 
 namespace KioskUI {
     public class AppViewModel : ReactiveObject {
-        private readonly ReadOnlyObservableCollection<RelayItem> _bindingFoundRelays;
-        private readonly SourceList<RelayItem> _foundRelays = new SourceList<RelayItem>();
+        private readonly ReadOnlyObservableCollection<RelayInfo> _bindingFoundRelays;
+        private readonly SourceList<RelayInfo> _foundRelays = new SourceList<RelayInfo>();
+        private readonly SourceList<ChannelItem> _channels = new SourceList<ChannelItem>();
         private readonly RelaysEnumerator _relaysEnumerator = new RelaysEnumerator();
 
         public AppViewModel() {
@@ -23,57 +24,31 @@ namespace KioskUI {
                 .Subscribe();
 
             this.CommandFind = ReactiveCommand.Create(this.Find);
-            this.CommandOpenAll = ReactiveCommand.Create(this.OpenAll);
-            this.CommandCloseAll = ReactiveCommand.Create(this.CloseAll);
+            this.CommandReadRelayInfo = ReactiveCommand.Create<RelayInfo>(this.ReadRelayInfo);
+
+            this.WhenAnyValue(x => x.SelectedRelay)
+                .InvokeCommand(this.CommandReadRelayInfo);
         }
 
         [Reactive] public ReactiveCommand<Unit, Unit> CommandFind { get; set; }
-        [Reactive] public ReactiveCommand<Unit, Unit> CommandOpenAll { get; set; }
-        [Reactive] public ReactiveCommand<Unit, Unit> CommandCloseAll { get; set; }
+        [Reactive] public ReactiveCommand<RelayInfo, Unit> CommandReadRelayInfo { get; set; }
 
-        public ReadOnlyObservableCollection<RelayItem> FoundRelays => this._bindingFoundRelays;
+        public ReadOnlyObservableCollection<RelayInfo> FoundRelays => this._bindingFoundRelays;
 
-        [Reactive] public RelayItem SelectedRelay { get; set; }
+        [Reactive] public RelayInfo SelectedRelay { get; set; }
 
         private void Find() {
             var items = this._relaysEnumerator.CollectInfo()
-                .Select(x => new RelayItem(x))
                 .ToArray();
             this._foundRelays.Clear();
             this._foundRelays.AddRange(items);
         }
 
-        private void OpenAll() {
-            var relayInfo = this.SelectedRelay?.RelayInfo;
+        private void ReadRelayInfo(RelayInfo relayItem) {
+            var relayInfo = this.SelectedRelay;
 
             if (relayInfo != null) {
-                using (var relay = new Relay(relayInfo)) {
-                    if (relay.Open()) {
-                        relay.WriteChannels(true);
-                        relay.Close();
-                    } else {
-                        SystemSounds.Exclamation.Play();
-                    }
-                }
-            } else {
-                SystemSounds.Exclamation.Play();
-            }
-        }
-
-        private void CloseAll() {
-            var relayInfo = this.SelectedRelay?.RelayInfo;
-
-            if (relayInfo != null) {
-                using (var relay = new Relay(relayInfo)) {
-                    if (relay.Open()) {
-                        relay.WriteChannels(false);
-                        relay.Close();
-                    } else {
-                        SystemSounds.Exclamation.Play();
-                    }
-                }
-            } else {
-                SystemSounds.Exclamation.Play();
+                //relayInfo.
             }
         }
     }
